@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Científico: Proyecto Medusa-Exaltado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --accent-dark: #0369a1;
+            --bg: #020617;
+            --card: #0f172a;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 40px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .archive-info {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        .abstract {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            max-width: 800px;
+            margin-bottom: 60px;
+            border-left: 3px solid var(--accent);
+            padding-left: 30px;
+        }
+
+        /* GRIDS */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 30px; }
+
+        .section-header {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header::after { content: ""; flex-grow: 1; height: 1px; background: rgba(56, 189, 248, 0.2); }
+
+        /* CARDS */
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover { transform: scale(1.02); border-color: rgba(56, 189, 248, 0.3); }
+
+        .card h3 { margin: 0 0 15px 0; font-size: 1.5rem; color: #fff; }
+
+        /* HOSTILITY CARDS */
+        .h-card { text-align: center; padding: 20px; }
+        .h-card .label { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
+        .h-card .val { font-size: 1.5rem; font-weight: 700; display: block; margin: 5px 0; }
+        .h-card .risk { color: var(--danger); font-size: 0.75rem; font-weight: 600; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 4px; }
+
+        /* CONTENT */
+        .math {
+            font-family: 'JetBrains Mono', monospace;
+            background: #000;
+            padding: 15px;
+            border-radius: 12px;
+            color: var(--accent);
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .list { list-style: none; padding: 0; margin: 0; }
+        .list li { margin-bottom: 12px; color: var(--text-dim); display: flex; gap: 10px; }
+        .list li::before { content: "→"; color: var(--accent); font-weight: bold; }
+        .list li strong { color: #fff; }
+
+        /* FOOTER BOXES */
+        .info-strip {
+            background: linear-gradient(90deg, var(--accent-dark), var(--bg));
+            padding: 2px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        .info-strip-inner {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .header { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div>
+                <h1>MEDUSA-EXALTADO</h1>
+                <p style="color: var(--accent); font-weight: 600; margin: 5px 0;">Homo Sapiens Adaptabilis (Variante Exaltada)</p>
+            </div>
+            <div class="archive-info">
+                ARCHIVO: BIOLOGIS-OMNIS-001-MEDUSA<br>
+                PROYECTO: "EL GRAN TRABAJO"
+            </div>
+        </header>
+
+        <p class="abstract">
+            Reconfiguración total del genoma humano. Rechazamos la fragilidad del silicio y el acero en favor de la <strong>Optimización Celular Extrema</strong>: transformando el organismo en un transductor de energía ambiental.
+        </p>
+
+        <!-- SECCIÓN I -->
+        <div class="section-header">I. Perfil de Hostilidad Ambiental</div>
+        <div class="grid-3">
+            <div class="card h-card">
+                <span class="label">Gravedad Flutuante</span>
+                <span class="val">1.5g - 2.2g</span>
+                <span class="risk">Fragmentación Esquelética</span>
+            </div>
+            <div class="card h-card">
+                <span class="label">Atmósfera</span>
+                <span class="val">SO₂ + Ceniza de Silicato</span>
+                <span class="risk">Necrosis Pulmonar Aguda</span>
+            </div>
+            <div class="card h-card">
+                <span class="label">Actividad Tectónica</span>
+                <span class="val">Escala Magos-9</span>
+                <span class="risk">Trauma Masivo Constante</span>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card h-card" style="flex-direction: row; display: flex; justify-content: space-around; align-items: center;">
+                <div>
+                    <span class="label">Radiación Ionizante</span>
+                    <span class="val">Prox. Ojo del Terror</span>
+                    <span class="risk">Inestabilidad Genómica</span>
+                </div>
+                <div>
+                    <span class="label">Gradiente Térmico</span>
+                    <span class="val">-100°C a 1200°C</span>
+                    <span class="risk">Desnaturalización Proteica</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN II -->
+        <div class="section-header">II. La Reestructuración Biológica</div>
+        <div class="grid-2">
+            <div class="card">
+                <h3>1. Marco Estructural</h3>
+                <ul class="list">
+                    <li><strong>Osteo-Polimerización:</strong> Médula ósea reprogramada para secretar matriz de quitina-silicato biogénico. Dureza de granito con flexibilidad de polímero.</li>
+                    <li><strong>Miofibras Tejidas:</strong> Estructuras helicoidales de actina y miosina reforzadas con proteínas de seda de araña.</li>
+                </ul>
+                <div class="math">F = τ · (dθ / dr)</div>
+                <p><small>La fuerza aplicada (F) es proporcional al torque (τ) generado por las miofibras optimizadas.</small></p>
+            </div>
+            <div class="card">
+                <h3>2. Escudo Dérmico</h3>
+                <p style="color: var(--text-dim); margin-bottom: 20px;">Armadura sintiente compuesta por placas de melanocitos cristalinos que cambian su configuración molecular.</p>
+                <ul class="list">
+                    <li><strong>Modo Reflectivo:</strong> Acabado Plata/Espejo para tormentas de radiación.</li>
+                    <li><strong>Modo Absorbente:</strong> Acabado Obsidiana para captura térmica en páramos helados.</li>
+                    <li><strong>Epitelio Quimiosintético:</strong> Cosecha de gradientes de protones (H⁺) de la acidez atmosférica.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 30px;">
+            <h3>3. Organum Respiratus (Autarquía Atmosférica)</h3>
+            <div class="grid-2" style="margin-bottom: 0;">
+                <div>
+                    <p><strong>Filtración Ciliar:</strong> Filtros óseos en fosas nasales vibrando a frecuencias ultrasónicas para desintegrar ceniza antes de la inhalación.</p>
+                </div>
+                <div>
+                    <p><strong>Sangre de Ciclo de Cobalto:</strong> Proteína basada en cobalto que permite saturación de oxígeno eficiente incluso en concentraciones de O₂ menores al 5%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN III y IV -->
+        <div class="grid-2">
+            <div>
+                <div class="section-header">III. Sistema Neural</div>
+                <div class="card">
+                    <p><strong>Desacoplamiento Traumático:</strong> Sistema nervioso central separado del trauma emocional.</p>
+                    <ul class="list">
+                        <li><strong>Transducción Nociceptiva:</strong> Glándula de procesamiento en el tronco encefálico filtra el dolor. El sujeto recibe "Notificaciones de Datos" (ej: <em>"Aumento de Flujo Térmico en Extremidad Derecha"</em>).</li>
+                        <li><strong>Sinapsis Acelerada:</strong> Velocidad de 0.002ms. Reacción a sismos antes de que las ondas superficiales sean detectadas.</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="section-header">IV. Viabilidad Metabólica</div>
+                <div class="card">
+                    <p><strong>Ayuno Geológico:</strong> Nutrición vía Quimio-Termosíntesis. El organismo se alimenta del planeta mismo.</p>
+                    <div class="math">ΔG = ΔH - TΔS</div>
+                    <p><small>La energía libre de Gibbs (ΔG) se mantiene negativa capturando el calor ambiental y la radiación exotérmica (ΔH).</small></p>
+                    <div class="info-strip">
+                        <div class="info-strip-inner">
+                            <span style="color: var(--success); font-weight: bold;">ESTADO: Autosuficiencia Termodinámica</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;">
+            VERIFICADO POR MAGOS-BIOLOGIS // UPLINK DE NOOSFERA ACTIVO // NO REPRODUCIR SIN AUTORIZACIÓN
+        </footer>
+    </div>
+</body>
+</html>

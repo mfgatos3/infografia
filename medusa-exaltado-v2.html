@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Científico: Proyecto Medusa-Exaltado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #64748b;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent-cyan: #22d3ee;
+            --danger: #f43f5e;
+            --text-light: #f8fafc;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .presentation-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* HEADER */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #7dd3fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+
+        /* SECTION HEADERS */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            margin-top: 50px;
+        }
+
+        .section-title h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--accent-cyan);
+        }
+
+        .line {
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* HOSTILITY GRID */
+        .hostility-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .h-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .h-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .h-label {
+            color: var(--secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .h-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+
+        .h-threat {
+            margin-top: 15px;
+            color: var(--danger);
+            font-size: 0.8rem;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* BIOLOGICAL CONTENT */
+        .bio-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .bio-block {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bio-block h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bio-block h3::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .math-box {
+            background: #0c111d;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent-cyan);
+            font-size: 1.4rem;
+        }
+
+        .math-box small {
+            display: block;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            margin-top: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* FOOTER INFO */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .info-box {
+            background: rgba(14, 165, 233, 0.05);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        .info-box h4 {
+            margin: 0 0 15px 0;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .hostility-grid, .bio-container, .bottom-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-wrapper">
+        <header class="hero">
+            <span class="badge">BIOLOGIS-OMNIS // REPORT-001</span>
+            <h1>Proyecto Medusa-Exaltado</h1>
+            <p class="subtitle">Informe sobre la optimización celular del <em>Homo Sapiens Adaptabilis</em> para la ocupación permanente del Mundo de Medusa.</p>
+        </header>
+
+        <div class="section-title">
+            <h2>I. Perfil del Entorno</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="hostility-grid">
+            <div class="h-card">
+                <span class="h-label">Gravedad</span>
+                <span class="h-value">1.5g - 2.2g</span>
+                <div class="h-threat">Riesgo Óseo Crítico</div>
+            </div>
+            <div class="h-card">
+                <span class="h-label">Atmósfera</span>
+                <span class="h-value">SO₂ & Ceniza</span>
+                <div class="h-threat">Necrosis Pulmonar</div>
+            </div>
+            <div class="h-card">
+                <span class="h-label">Radiación</span>
+                <span class="h-value">Ionizante Alta</span>
+                <div class="h-threat">Inestabilidad Genómica</div>
+            </div>
+            <div class="h-card">
+                <span class="h-label">Temperatura</span>
+                <span class="h-value">-100°C a 1200°C</span>
+                <div class="h-threat">Desnaturalización</div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h2>II. Reestructuración Biológica</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="bio-container">
+            <div class="bio-block">
+                <h3>Marco Estructural</h3>
+                <p>Reprogramación de la médula para secretar <strong>quitina-silicato biogénico</strong>. Una estructura con la dureza del granito y la flexibilidad del polímero.</p>
+                
+                <div class="math-box">
+                    F = τ · (dθ / dr)
+                    <small>Relación de torque generado por miofibras helicoidales.</small>
+                </div>
+                
+                <p>Las fibras de miosina están reforzadas con proteínas de seda de araña de alta densidad.</p>
+            </div>
+
+            <div class="bio-block">
+                <h3>Escudo Dérmico</h3>
+                <p>Piel compuesta por placas de melanocitos cristalinos que reaccionan al entorno:</p>
+                <ul style="color: #cbd5e1; margin-top: 15px;">
+                    <li><strong>Modo Reflectivo:</strong> Acabado plata para tormentas de radiación.</li>
+                    <li><strong>Modo Absorbente:</strong> Acabado obsidiana para captura térmica.</li>
+                </ul>
+                <p><em>Epitelio Quimiosintético:</em> Capacidad de absorber gradientes de protones directamente de la acidez atmosférica.</p>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h2>III. Sistemas de Soporte</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="bottom-grid">
+            <div class="info-box">
+                <h4>Autarquía Atmosférica</h4>
+                <p>Filtros óseos ultrasónicos en fosas nasales que desintegran partículas de ceniza. Sangre de ciclo de Cobalto para satura oxigeno al &lt;5%.</p>
+            </div>
+            <div class="info-box" style="background: rgba(34, 211, 238, 0.05);">
+                <h4>Telemetría del Dolor</h4>
+                <p>Los impulsos son filtrados y convertidos en "notificaciones de datos". Sin trauma emocional, con respuesta sináptica de 0.002ms.</p>
+            </div>
+            <div class="info-box">
+                <h4>Viabilidad Metabólica</h4>
+                <div style="font-size: 1.1rem; color: #fff; margin-bottom: 10px; font-weight: 700;">ΔG = ΔH - TΔS</div>
+                <p>Termodinámicamente autosuficiente capturando calor ambiental y radiación exotérmica.</p>
+            </div>
+        </div>
+
+        <footer>
+            AUTORIZADO POR MAGOS-BIOLOGIS // ARCHIVO BIOLOGIS-OMNIS-001-MEDUSA<br>
+            <span style="opacity: 0.5;">Confidencialidad Nivel Épsilon</span>
+        </footer>
+    </div>
+</body>
+</html>

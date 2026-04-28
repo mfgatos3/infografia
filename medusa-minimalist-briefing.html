@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medusa-Exalted: Intelligence Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #1A1A1B;
+            --bone: #E0D7C1;
+            --magma: #FF4500;
+            --cobalt: #6A5ACD;
+            --accent-blue: #3b82f6;
+            --card-bg: rgba(26, 26, 27, 0.85);
+            --border: rgba(224, 215, 193, 0.2);
+        }
+
+        body {
+            background-color: var(--obsidian);
+            background-image: 
+                linear-gradient(rgba(26, 26, 27, 0.7), rgba(26, 26, 27, 0.7)),
+                url('medusa.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--bone);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-layout {
+            width: 98vw;
+            height: 95vh;
+            display: grid;
+            grid-template-columns: 400px 1fr 400px;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+        }
+
+        header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: -1px;
+            color: var(--bone);
+        }
+
+        .designation {
+            font-size: 0.8rem;
+            color: var(--magma);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* SIDEBARS */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* CATEGORY INDICATORS */
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        details[open] {
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.15);
+            border-color: rgba(224, 215, 193, 0.4);
+        }
+
+        .neural { border-left: 6px solid var(--accent-blue); }
+        .resp { border-left: 6px solid var(--cobalt); }
+        .energy { border-left: 6px solid var(--magma); }
+
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            list-style: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--bone);
+        }
+
+        summary::after { content: "[ + ]"; opacity: 0.5; font-size: 0.7rem; }
+        details[open] summary::after { content: "[ - ]"; }
+
+        .details-content {
+            padding: 0 15px 15px 15px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: rgba(224, 215, 193, 0.8);
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .details-content b { color: var(--bone); }
+        h3 { font-size: 0.75rem; text-transform: uppercase; margin: 12px 0 4px 0; color: var(--bone); opacity: 0.9; }
+
+        /* VIDEO AREA */
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-player-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: black;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-selector {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 8px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        .video-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--bone);
+            padding: 6px 15px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .video-btn.active {
+            background: var(--magma);
+            border-color: var(--magma);
+            font-weight: bold;
+        }
+
+        /* FOOTER NOTE */
+        .footer-note {
+            margin-top: auto;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border-left: 4px solid var(--magma);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        <header>
+            <div>
+                <span class="designation">Project Medusa-Exalted // Intelligence Hub</span>
+                <h1>Visual Briefing</h1>
+            </div>
+            <div style="text-align: right; color: var(--bone); opacity: 0.6; font-size: 0.8rem;">
+                Authors: Forero / Angulo / Roncancio<br>
+                Status: <b style="color: var(--magma)">Visual Feed Active</b>
+            </div>
+        </header>
+
+        <!-- LEFT SIDEBAR -->
+        <div class="sidebar">
+            <!-- 1. NEURAL -->
+            <details class="neural" open>
+                <summary>1. NEURAL & COGNITIVE LAYER</summary>
+                <div class="details-content">
+                    <p><b>Designation:</b> Hegemony Logic-Gate.</p>
+                    <h3>The No-Pain Reflex</h3>
+                    <p>Synaptic pathways rerouted via the Nociceptive Node. Pain is interpreted as binary stress data (e.g., "Structural Integrity at 85%").</p>
+                    <h3>Geological Stasis</h3>
+                    <p>Complete suppression of the amygdala. Subject remains in an "Analytical Trance" for real-time calculations.</p>
+                    <h3>The Hive-Link</h3>
+                    <p>Sub-dermal electro-receptors allow instant coordination with the swarm.</p>
+                </div>
+            </details>
+
+            <!-- 2. RESPIRATORY -->
+            <details class="resp">
+                <summary>2. SUPERIOR RESPIRATORY COMPLEX</summary>
+                <div class="details-content">
+                    <h3 style="color: var(--cobalt)">The Primary Pre-Filter</h3>
+                    <p><b>Position:</b> Sub-glottic. Hyper-viscous mucus trap neutralizes heavy metals and ash. Expels pressurized vapor through facial slits.</p>
+                    <h3 style="color: var(--cobalt)">Secondary Cobalt Lungs</h3>
+                    <p>Deep gas exchange using cobalt-based hemoglobin. Operates in zero-oxygen or high-sulfur environments.</p>
+                </div>
+            </details>
+
+            <!-- 5. REPRODUCTION -->
+            <details>
+                <summary>5. REPRODUCTIVE ECTOGENESIS</summary>
+                <div class="details-content">
+                    <p><b>Factory:</b> Procreation via Ex-Vivo Vats.</p>
+                    <h3>Environmental Imprinting</h3>
+                    <p>Embryos exposed to heat/radiation to "stress-test" obsidian skin before birth.</p>
+                    <p><b>Instant Integration:</b> Post-natal neural upload of tactical and survival data.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- CENTRAL VIDEO VIEW -->
+        <div class="video-container">
+            <div class="video-player-wrapper">
+                <video id="mainVideo" controls autoplay muted loop>
+                    <source src="202604281134.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-selector">
+                <button class="video-btn active" onclick="changeVideo('202604281134.mp4', this)">Primary Feed</button>
+                <button class="video-btn" onclick="changeVideo('202604281134 (1).mp4', this)">Thermal Feed</button>
+                <button class="video-btn" onclick="changeVideo('202604281134 (2).mp4', this)">Anatomy Feed</button>
+                <button class="video-btn" onclick="changeVideo('202604281134 (3).mp4', this)">Genetic Feed</button>
+                <button class="video-btn" onclick="changeVideo('../DOWLOADS/Red Modern Typographic Lower Third YouTube Intro .mp4', this)">Archive 02</button>
+                <button class="video-btn" onclick="changeVideo('../DOWLOADS/Red White and Blue Modern Breaking News Video.mp4', this)">Archive 03</button>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div class="sidebar">
+            <!-- 3. ENERGY -->
+            <details class="energy" open>
+                <summary>3. INTERNAL ENERGY CORE</summary>
+                <div class="details-content">
+                    <h3 style="color: var(--magma)">Bio-Thermal Core</h3>
+                    <p><b>Nature:</b> Radiolysis Reactor acting as a capacitor for bio-electrical energy blasts.</p>
+                    <h3 style="color: var(--magma)">The Obsidian Skin</h3>
+                    <p>Keratin-silicate polymer armor. Pseudo-chloroplasts convert gamma radiation directly into ATP.</p>
+                </div>
+            </details>
+
+            <!-- 4. METABOLIC -->
+            <details>
+                <summary>4. METABOLIC & STRUCTURAL</summary>
+                <div class="details-content">
+                    <h3>Lithic Ventricle</h3>
+                    <p><b>Rock-Grinder:</b> Industrial acids dissolve volcanic rock to extract minerals for armor repair.</p>
+                    <h3>Closed-Loop System</h3>
+                    <p>99.9% biomass recycling. Independent of organic food sources for decades.</p>
+                    <h3>Osteo-Polymer Skeleton</h3>
+                    <p>Bio-carbon honeycomb core with dense silicate coating. Flexible for seismic shocks.</p>
+                </div>
+            </details>
+
+            <div class="footer-note">
+                <b>Biologis Note:</b> High gravity resilience verified up to 2.2g. Feeds on ambient radiation and heat.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeVideo(src, btn) {
+            const video = document.getElementById('mainVideo');
+            video.src = src;
+            video.play();
+            document.querySelectorAll('.video-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

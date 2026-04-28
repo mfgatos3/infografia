@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA BIOLOGIS: MEDUSA EXALTADO</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #1A1A1B;
+            --bone: #E0D7C1;
+            --magma: #FF4500;
+            --cobalt: #6A5ACD;
+            --glass: rgba(224, 215, 193, 0.03);
+            --border: rgba(224, 215, 193, 0.15);
+        }
+
+        body {
+            background-color: var(--obsidian);
+            color: var(--bone);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #2a2a2c 0%, var(--obsidian) 100%);
+        }
+
+        /* GRID BACKGROUND */
+        .hud-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .main-container {
+            width: 98vw;
+            height: 95vh;
+            display: grid;
+            grid-template-columns: 400px 1fr 400px;
+            grid-template-rows: auto 1fr auto;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* HEADER */
+        header {
+            grid-column: 1 / -1;
+            border-bottom: 2px solid var(--bone);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin: 0;
+            letter-spacing: 5px;
+            color: var(--bone);
+        }
+
+        .core-status {
+            color: var(--magma);
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--magma);
+        }
+
+        /* SIDE COLUMNS */
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* INTERACTIVE CARDS (CLICK TO EXPAND) */
+        details {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            border-color: var(--bone);
+            background: rgba(224, 215, 193, 0.08);
+        }
+
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--bone);
+            border-left: 4px solid var(--bone);
+        }
+
+        summary::-webkit-details-marker { display: none; }
+        
+        summary::after {
+            content: "[ + ]";
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        details[open] summary::after {
+            content: "[ - ]";
+        }
+
+        .content {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* COLOR THEMES FOR SECTIONS */
+        .resp-section { border-left-color: var(--cobalt) !important; color: var(--cobalt) !important; }
+        .energy-section { border-left-color: var(--magma) !important; color: var(--magma) !important; }
+        
+        .energy-box {
+            box-shadow: inset 0 0 15px rgba(255, 69, 0, 0.2);
+        }
+
+        /* CENTRAL VIEWER */
+        .stage {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stage::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--magma);
+            filter: blur(150px);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .scan-anim {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--magma);
+            box-shadow: 0 0 20px var(--magma);
+            top: 0;
+            animation: scanMove 5s infinite ease-in-out;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        @keyframes scanMove {
+            0% { top: 10%; }
+            50% { top: 90%; }
+            100% { top: 10%; }
+        }
+
+        /* FOOTER */
+        footer {
+            grid-column: 1 / -1;
+            border-top: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        b { color: var(--magma); }
+        .cob { color: var(--cobalt); font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <div class="hud-bg"></div>
+
+    <div class="main-container">
+        <header>
+            <div class="logo">
+                <h1>BIO-DESIGNATION: MEDUSA-EXALTADO</h1>
+                <small>PROTOCOLO BIOLOGIS-OMNIS-001</small>
+            </div>
+            <div class="core-status">NÚCLEO DE FISIÓN: ESTABLE</div>
+        </header>
+
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="column">
+            <!-- 1. IDENTIDAD -->
+            <details open>
+                <summary>01. BIO-IDENTIDAD Y COGNICIÓN</summary>
+                <div class="content">
+                    <p><b>Estado Mental:</b> Estoicismo Geológico. Supresión total del sistema límbico con amígdala atrofiada.</p>
+                    <p><b>Capacidad:</b> Cálculo de trayectorias balísticas en tiempo real mediante lóbulo frontal hipertrofiado.</p>
+                    <p><b>Comunicación:</b> Transmisión de feromonas de corto alcance y electro-recepción (Conciencia de Placa).</p>
+                </div>
+            </details>
+
+            <!-- 2. RESPIRATORIO -->
+            <details>
+                <summary class="resp-section">02. SISTEMA RESPIRATORIO</summary>
+                <div class="content">
+                    <h3 class="cob">Filtro Primario (Tercer Pulmón)</h3>
+                    <p>Región subglótica. Captura silicatos y azufre con moco hiperviscoso. Expulsión de vapor presurizado por hendiduras faciales.</p>
+                    <h3 class="cob">Pulmones de Cobalto</h3>
+                    <p>Intercambio optimizado con hemoglobina de <span class="cob">Cobalto</span>. Eficiencia máxima en atmósferas anóxicas.</p>
+                </div>
+            </details>
+
+            <!-- 5. REPRODUCCIÓN -->
+            <details>
+                <summary>05. REPRODUCCIÓN (ECTOGÉNESIS)</summary>
+                <div class="content">
+                    <p><b>Origen:</b> Cápsulas de Gestación Ex-Vivo.</p>
+                    <p><b>Maduración:</b> 14 meses bajo estrés radiológico inducido.</p>
+                    <p><b>Integración:</b> Conexión neuronal post-natal inmediata al Enjambre de Datos.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- VISOR CENTRAL -->
+        <div class="stage">
+            <div class="scan-anim"></div>
+            <model-viewer 
+                src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
+                alt="Medusa Character"
+                auto-rotate 
+                camera-controls
+                shadow-intensity="2"
+                exposure="0.5">
+            </model-viewer>
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <div class="column">
+            <!-- 3. ENERGÍA -->
+            <details class="energy-box">
+                <summary class="energy-section">03. NÚCLEO Y DERMIS</summary>
+                <div class="content">
+                    <h3 style="color:var(--magma)">Núcleo de Fisión Orgánica</h3>
+                    <p>Reactor central de ATP. Genera ráfagas de energía bio-eléctrica dirigida.</p>
+                    <h3 style="color:var(--magma)">Dermis de Obsidiana</h3>
+                    <p>Queratina entrelazada con polímeros de silicio. Pseudocloroplastos profundos para radiolisis de rayos gamma.</p>
+                    <p><b>Vectores:</b> Extremidades actúan como pararrayos biológicos.</p>
+                </div>
+            </details>
+
+            <!-- 4. SOPORTE -->
+            <details>
+                <summary>04. NUTRICIÓN Y ESTRUCTURA</summary>
+                <div class="content">
+                    <h3>Ventrículo Lítico</h3>
+                    <p>Ingestión de regolito volcánico. Ácidos industriales extraen calcio y hierro de las rocas.</p>
+                    <h3>Ciclo Intestinal</h3>
+                    <p>Circuito cerrado. Reabsorción del 99.8% de fluidos. Excreción de desechos minerales secos.</p>
+                    <h3>Armazón Osteo-Polimérico</h3>
+                    <p>Núcleo de panal de fibra de carbono natural con recubrimiento de silicato denso.</p>
+                </div>
+            </details>
+
+            <div style="background: rgba(255, 69, 0, 0.05); padding: 15px; border: 1px dashed var(--magma); font-size: 0.75rem;">
+                <b style="color: var(--magma);">ADVERTENCIA:</b> Mantenimiento de gradiente exotérmico requerido para evitar cristalización de la biomasa.
+            </div>
+        </div>
+
+        <footer>
+            <span>SUBJECT: HOMO SAPIENS MEDUSA-EXALTADO</span>
+            <span>AUTHORS: FORERO / ANGULO / RONCANCIO</span>
+            <span>ESTADO: <span style="color:var(--magma)">PROTOTIPO ALPHA V4.2</span></span>
+        </footer>
+    </div>
+
+</body>
+</html>
