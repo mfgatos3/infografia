@@ -14,6 +14,8 @@
             --accent-blue: #3b82f6;
             --card-bg: rgba(26, 26, 27, 0.85);
             --border: rgba(224, 215, 193, 0.2);
+            --warning-red: #8B0000;
+            --neon-orange: #FF4500;
         }
 
         body {
@@ -127,41 +129,49 @@
         .details-content b { color: var(--bone); }
         h3 { font-size: 0.75rem; text-transform: uppercase; margin: 12px 0 4px 0; color: var(--bone); opacity: 0.9; }
 
-        /* VIDEO AREA */
-        .video-container {
+        /* CENTER AREA */
+        .center-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
             justify-content: center;
             align-items: center;
+            height: 100%;
+            overflow: hidden;
         }
 
-        .video-player-wrapper {
+        .display-wrapper {
             width: 100%;
-            aspect-ratio: 16/9;
+            flex-grow: 1;
             background: black;
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid var(--border);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        video {
+        video, .anatomy-image {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .video-selector {
+        .hidden { display: none !important; }
+
+        .selector-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             background: var(--card-bg);
-            padding: 8px;
+            padding: 8px 15px;
             border-radius: 100px;
             border: 1px solid var(--border);
         }
 
-        .video-btn {
+        .mode-btn {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--bone);
@@ -170,6 +180,33 @@
             cursor: pointer;
             font-family: 'Outfit', sans-serif;
             font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .video-selector {
+            display: flex;
+            gap: 8px;
+            max-width: 100%;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .video-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--bone);
+            padding: 4px 12px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.65rem;
+            white-space: nowrap;
             transition: all 0.3s;
         }
 
@@ -187,6 +224,117 @@
             border-radius: 12px;
             font-size: 0.75rem;
             border-left: 4px solid var(--magma);
+        }
+
+        /* NEW FEATURES */
+        .bio-metrics {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            margin-top: 10px;
+        }
+
+        .metric { margin-bottom: 10px; }
+        .metric-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--magma);
+            box-shadow: 0 0 10px var(--magma);
+        }
+
+        .environmental-baseline {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px dashed var(--accent-blue);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
+        .environmental-baseline h3 { margin-top: 0; color: var(--accent-blue); }
+        .environmental-baseline ul {
+            list-style: none; padding: 0; margin: 5px 0 0 0;
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .environmental-baseline li {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 8px; border-radius: 4px;
+        }
+
+        .warning-footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-family: monospace;
+            color: var(--warning-red);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* HOTSPOTS */
+        .hotspot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--neon-orange);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-orange);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hotspot::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            color: var(--bone);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            border: 1px solid var(--magma);
+            pointer-events: none;
+        }
+
+        .hotspot:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: 30px;
+        }
+
+        .hotspot-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 69, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
         }
 
         ::-webkit-scrollbar { width: 4px; }
@@ -209,92 +357,127 @@
 
         <!-- LEFT SIDEBAR -->
         <div class="sidebar">
-            <!-- 1. NEURAL -->
             <details class="neural" open>
                 <summary>1. NEURAL & COGNITIVE LAYER</summary>
                 <div class="details-content">
                     <p><b>Designation:</b> Hegemony Logic-Gate.</p>
                     <h3>The No-Pain Reflex</h3>
-                    <p>Synaptic pathways rerouted via the Nociceptive Node. Pain is interpreted as binary stress data (e.g., "Structural Integrity at 85%").</p>
+                    <p>Synaptic pathways rerouted via the Nociceptive Node.</p>
                     <h3>Geological Stasis</h3>
-                    <p>Complete suppression of the amygdala. Subject remains in an "Analytical Trance" for real-time calculations.</p>
+                    <p>Complete suppression of the amygdala.</p>
                     <h3>The Hive-Link</h3>
-                    <p>Sub-dermal electro-receptors allow instant coordination with the swarm.</p>
+                    <p>Sub-dermal electro-receptors for coordination.</p>
                 </div>
             </details>
 
-            <!-- 2. RESPIRATORY -->
             <details class="resp">
                 <summary>2. SUPERIOR RESPIRATORY COMPLEX</summary>
                 <div class="details-content">
                     <h3 style="color: var(--cobalt)">The Primary Pre-Filter</h3>
-                    <p><b>Position:</b> Sub-glottic. Hyper-viscous mucus trap neutralizes heavy metals and ash. Expels pressurized vapor through facial slits.</p>
+                    <p>Hyper-viscous mucus trap neutralizes heavy metals.</p>
                     <h3 style="color: var(--cobalt)">Secondary Cobalt Lungs</h3>
-                    <p>Deep gas exchange using cobalt-based hemoglobin. Operates in zero-oxygen or high-sulfur environments.</p>
+                    <p>Deep gas exchange using cobalt-based hemoglobin.</p>
                 </div>
             </details>
 
-            <!-- 5. REPRODUCTION -->
             <details>
                 <summary>5. REPRODUCTIVE ECTOGENESIS</summary>
                 <div class="details-content">
                     <p><b>Factory:</b> Procreation via Ex-Vivo Vats.</p>
                     <h3>Environmental Imprinting</h3>
-                    <p>Embryos exposed to heat/radiation to "stress-test" obsidian skin before birth.</p>
-                    <p><b>Instant Integration:</b> Post-natal neural upload of tactical and survival data.</p>
+                    <p>Embryos exposed to radiation to test obsidian skin.</p>
                 </div>
             </details>
+
+            <div class="environmental-baseline">
+                <h3>Environmental Baseline</h3>
+                <ul>
+                    <li>Planet Medusa</li>
+                    <li>Anoxic Atmosphere</li>
+                    <li>Gravity 1.2G</li>
+                </ul>
+            </div>
         </div>
 
-        <!-- CENTRAL VIDEO VIEW -->
-        <div class="video-container">
-            <div class="video-player-wrapper">
-                <video id="mainVideo" controls autoplay muted loop>
+        <!-- CENTER AREA -->
+        <div class="center-container">
+            <div class="display-wrapper">
+                <!-- Video Display -->
+                <video id="mainVideo" autoplay muted loop>
                     <source src="202604281134.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
+                
+                <!-- Anatomy Image Display -->
+                <div id="anatomyDisplay" class="hidden" style="width:100%; height:100%; position:relative;">
+                    <img src="medusa-anatomy.png" class="anatomy-image" alt="Medusa Anatomy">
+                    
+                    <!-- Hotspots -->
+                    <div class="hotspot hotspot-pulse" style="top: 45%; left: 50%;" data-tooltip="Radiolysis Reactor: ATP Generation"></div>
+                    <div class="hotspot" style="top: 35%; left: 48%;" data-tooltip="Third Lung: Acidic Vapor Exhaust"></div>
+                    <div class="hotspot" style="top: 40%; left: 65%;" data-tooltip="Obsidian Dermis: Gamma Absorption"></div>
+                </div>
             </div>
-            <div class="video-selector">
+
+            <div class="selector-group">
+                <button class="mode-btn active" onclick="switchMode('video')">VIDEO FEED</button>
+                <button class="mode-btn" onclick="switchMode('anatomy')">ANATOMY SCAN</button>
+            </div>
+
+            <div id="videoControls" class="video-selector">
                 <button class="video-btn active" onclick="changeVideo('202604281134.mp4', this)">Primary Feed</button>
                 <button class="video-btn" onclick="changeVideo('202604281134 (1).mp4', this)">Thermal Feed</button>
                 <button class="video-btn" onclick="changeVideo('202604281134 (2).mp4', this)">Anatomy Feed</button>
                 <button class="video-btn" onclick="changeVideo('202604281134 (3).mp4', this)">Genetic Feed</button>
-                <button class="video-btn" onclick="changeVideo('../DOWLOADS/Red Modern Typographic Lower Third YouTube Intro .mp4', this)">Archive 02</button>
-                <button class="video-btn" onclick="changeVideo('../DOWLOADS/Red White and Blue Modern Breaking News Video.mp4', this)">Archive 03</button>
             </div>
         </div>
 
         <!-- RIGHT SIDEBAR -->
         <div class="sidebar">
-            <!-- 3. ENERGY -->
             <details class="energy" open>
                 <summary>3. INTERNAL ENERGY CORE</summary>
                 <div class="details-content">
                     <h3 style="color: var(--magma)">Bio-Thermal Core</h3>
-                    <p><b>Nature:</b> Radiolysis Reactor acting as a capacitor for bio-electrical energy blasts.</p>
+                    <p>Radiolysis Reactor acting as a capacitor.</p>
                     <h3 style="color: var(--magma)">The Obsidian Skin</h3>
-                    <p>Keratin-silicate polymer armor. Pseudo-chloroplasts convert gamma radiation directly into ATP.</p>
+                    <p>Keratin-silicate polymer armor.</p>
                 </div>
             </details>
 
-            <!-- 4. METABOLIC -->
             <details>
                 <summary>4. METABOLIC & STRUCTURAL</summary>
                 <div class="details-content">
                     <h3>Lithic Ventricle</h3>
-                    <p><b>Rock-Grinder:</b> Industrial acids dissolve volcanic rock to extract minerals for armor repair.</p>
-                    <h3>Closed-Loop System</h3>
-                    <p>99.9% biomass recycling. Independent of organic food sources for decades.</p>
+                    <p>Industrial acids dissolve volcanic rock.</p>
                     <h3>Osteo-Polymer Skeleton</h3>
-                    <p>Bio-carbon honeycomb core with dense silicate coating. Flexible for seismic shocks.</p>
+                    <p>Bio-carbon honeycomb core.</p>
                 </div>
             </details>
 
             <div class="footer-note">
-                <b>Biologis Note:</b> High gravity resilience verified up to 2.2g. Feeds on ambient radiation and heat.
+                <b>Biologis Note:</b> High gravity resilience verified up to 2.2g.
+            </div>
+
+            <div class="bio-metrics">
+                <h3 style="margin-top:0">Bio-Metrics</h3>
+                <div class="metric">
+                    <div class="metric-label"><span>Toxin Resistance</span><span>98%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 98%"></div></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label"><span>Bone Density</span><span>450%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 100%; background: #FFD700; box-shadow: 0 0 10px #FFD700;"></div></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label"><span>Neural Latency</span><span>&lt; 0.1ms</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 99%; background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue);"></div></div>
+                </div>
             </div>
         </div>
     </div>
+
+    <footer class="warning-footer">
+        ⚠ UNAUTHORIZED ACCESS TO THESE GENETIC BLUEPRINTS IS PUNISHABLE BY SERVITOR-CONVERSION.
+    </footer>
 
     <script>
         function changeVideo(src, btn) {
@@ -303,6 +486,27 @@
             video.play();
             document.querySelectorAll('.video-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+        }
+
+        function switchMode(mode) {
+            const video = document.getElementById('mainVideo');
+            const anatomy = document.getElementById('anatomyDisplay');
+            const videoControls = document.getElementById('videoControls');
+            const btns = document.querySelectorAll('.mode-btn');
+
+            btns.forEach(b => b.classList.remove('active'));
+            
+            if (mode === 'video') {
+                video.classList.remove('hidden');
+                anatomy.classList.add('hidden');
+                videoControls.classList.remove('hidden');
+                btns[0].classList.add('active');
+            } else {
+                video.classList.add('hidden');
+                anatomy.classList.remove('hidden');
+                videoControls.classList.add('hidden');
+                btns[1].classList.add('active');
+            }
         }
     </script>
 </body>
