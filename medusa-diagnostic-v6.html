@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOLOGICAL RESEARCH DOSSIER: EXALTED-MEDUSA STRAIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0f0f0f;
+            --bone: #d1c7a3;
+            --blood: #8b0000;
+            --obsidian: #1a1a1a;
+            --text-muted: #a19a82;
+            --border-subtle: rgba(209, 199, 163, 0.15);
+            --panel-bg: rgba(15, 15, 15, 0.98);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--bone);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        .main-layout {
+            width: 98vw;
+            height: 96vh;
+            display: grid;
+            grid-template-columns: 380px 1fr 380px;
+            grid-template-rows: auto auto 1fr;
+            gap: 20px;
+            padding: 30px;
+            background: var(--bg-deep);
+            border: 0.5px solid var(--border-subtle);
+            position: relative;
+        }
+
+        header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 15px;
+            border-bottom: 0.5px solid var(--blood);
+        }
+
+        header h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        .classification {
+            font-size: 0.7rem;
+            color: var(--blood);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* TAB NAVIGATION */
+        .tab-nav {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 40px;
+            margin-top: 10px;
+            border-bottom: 0.5px solid var(--border-subtle);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 0;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn:hover { color: var(--bone); }
+        .tab-btn.active {
+            color: var(--bone);
+            border-bottom-color: var(--blood);
+        }
+
+        /* SIDEBARS */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            overflow-y: auto;
+            padding-right: 15px;
+            margin-top: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--blood) transparent;
+        }
+
+        .dossier-section {
+            border-bottom: 0.5px solid var(--border-subtle);
+            padding-bottom: 20px;
+        }
+
+        .section-header {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--blood);
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header span { font-size: 0.9rem; opacity: 0.5; }
+
+        .section-body {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-style: normal;
+        }
+
+        /* CENTER VIEWPORT */
+        .viewport-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 100%;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .display-frame {
+            width: 100%;
+            flex-grow: 1;
+            background: #050505;
+            border: 0.5px solid var(--border-subtle);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .display-frame video, .display-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.5s ease;
+        }
+
+        .hidden { display: none !important; }
+
+        /* HOTSPOTS */
+        .hotspots-root {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--blood);
+            background: rgba(139, 0, 0, 0.1);
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translate(-50%, -50%);
+        }
+
+        .hotspot::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--blood);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .hotspot:hover, .hotspot.scanned {
+            background: var(--blood);
+            box-shadow: 0 0 15px var(--blood);
+        }
+
+        /* ANALYSIS PANEL */
+        .analysis-panel {
+            background: var(--obsidian);
+            border-left: 3px solid var(--blood);
+            padding: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .analysis-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--bone);
+            text-transform: uppercase;
+            border-bottom: 0.5px solid var(--border-subtle);
+            padding-bottom: 8px;
+        }
+
+        .analysis-body {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            min-height: 100px;
+        }
+
+        /* ENVIRONMENTAL SPECS */
+        .env-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .env-stat {
+            border: 0.5px solid var(--border-subtle);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .env-stat-label {
+            font-size: 0.6rem;
+            color: var(--blood);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .env-stat-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--bone);
+        }
+
+        /* VIDEO FEED HUD */
+        .feed-hud {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-top: 0.5px solid var(--border-subtle);
+        }
+
+        .feed-btn {
+            background: transparent;
+            border: 0.5px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 6px 15px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .feed-btn:hover, .feed-btn.active {
+            border-color: var(--blood);
+            color: var(--bone);
+        }
+
+        /* FOOTER */
+        .dossier-footer {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-align: right;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .dossier-footer span { color: var(--blood); font-weight: 800; }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--blood); }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        <header>
+            <div>
+                <span class="classification">CONFIDENTIAL // BIOLOGICAL RESEARCH DOSSIER // LEVEL 5</span>
+                <h1>Exalted-Medusa Strain: Specimen Analysis</h1>
+            </div>
+            <div style="text-align: right; font-size: 0.7rem; line-height: 1.4;">
+                Dossier: EM-P6.0<br>
+                Status: <span style="color: var(--bone)">METABOLIC STABILITY CONFIRMED</span>
+            </div>
+        </header>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" id="btn-specimen" onclick="switchMainView('specimen')">Specimen Dossier</button>
+            <button class="tab-btn" id="btn-env" onclick="switchMainView('environment')">Environmental Analysis: Medusa Prime</button>
+        </nav>
+
+        <!-- LEFT SIDEBAR: BIOLOGICAL Dossier -->
+        <div class="sidebar" id="sidebar-specimen">
+            <div class="dossier-section">
+                <div class="section-header"><span>01</span> Neural Rhizome</div>
+                <div class="section-body">
+                    A decentralized, fibrous neural architecture. The organism lacks a singular encephalon, instead processing data through a sub-dermal mesh. This ensures operational continuity even after massive structural compromise.
+                </div>
+            </div>
+            <div class="dossier-section">
+                <div class="section-header"><span>02</span> Lagnan & Cobalt-Blood</div>
+                <div class="section-body">
+                    Baseline hemoglobin has been phased out for a cobalt-based carrier protein. This 'Lagnan Blood' facilitates oxygen-independent cellular respiration and functions as a coolant during peak volcanic exposure.
+                </div>
+            </div>
+            <div class="dossier-section">
+                <div class="section-header"><span>03</span> Lithic Honeycomb Skeleton</div>
+                <div class="section-body">
+                    The skeletal matrix is composed of bio-integrated silicates. This honeycomb structure provides the necessary rigidity to survive the 1.25G gravity while maintaining the porosity required for rapid thermal dissipation.
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar hidden" id="sidebar-env">
+            <div class="dossier-section">
+                <div class="section-header">GEOLOGICAL PROFILE</div>
+                <div class="env-data-grid">
+                    <div class="env-stat">
+                        <span class="env-stat-label">Gravity</span>
+                        <span class="env-stat-value">1.25G</span>
+                    </div>
+                    <div class="env-stat">
+                        <span class="env-stat-label">Mean Temp</span>
+                        <span class="env-stat-value">450°C</span>
+                    </div>
+                </div>
+                <div class="section-body" style="margin-top: 20px;">
+                    Medusa Prime is a furnace world defined by an anoxic sulfur atmosphere. Organic decay is impossible; matter either vitrifies or sublimates. 
+                </div>
+            </div>
+            <div class="dossier-section">
+                <div class="section-header">THE GLASS WIND</div>
+                <div class="section-body">
+                    Supersonic silicate storms reaching Mach 1.5. These atmospheric events act as a global abrasive, shredding anything below a 7.5 Mohs hardness rating. The Exalted strain uses this wind to "sand-wash" its integument.
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER VIEWPORT -->
+        <div class="viewport-container">
+            <div class="display-frame" id="viewport">
+                <!-- Anatomy View (Default) -->
+                <div id="view-anatomy" style="width:100%; height:100%; position:relative;">
+                    <img src="medusa-anatomy.png" alt="Specimen Anatomy">
+                    <div class="hotspots-root" id="hotspots-layer"></div>
+                </div>
+
+                <!-- Environment View -->
+                <div id="view-env" class="hidden" style="width:100%; height:100%; position:relative; background: #000;">
+                    <img src="medusa-anatomy.png" style="opacity: 0.3; filter: saturate(0) brightness(0.5);">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;">
+                        <h2 style="font-size: 2rem; color: var(--blood);">ANXIC ZONE</h2>
+                        <p style="font-size: 0.8rem; letter-spacing: 2px;">ATMOSPHERIC ANALYSIS IN PROGRESS</p>
+                    </div>
+                </div>
+
+                <!-- Video View -->
+                <div id="view-video" class="hidden" style="width:100%; height:100%; background:#000;">
+                    <video id="video-player" muted loop></video>
+                </div>
+            </div>
+
+            <!-- FEED SELECTOR -->
+            <div class="feed-hud">
+                <button class="feed-btn active" onclick="playFeed('anatomy')">Static Anatomy</button>
+                <button class="feed-btn" onclick="playFeed('video anatomia.mp4')">Internal Feed</button>
+                <button class="feed-btn" onclick="playFeed('modelo con base.mp4')">Static Pose</button>
+                <button class="feed-btn" onclick="playFeed('caminando.mp4')">Locomotion</button>
+                <button class="feed-btn" onclick="playFeed('gritanto.mp4')">Stress Test</button>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR: ANALYSIS -->
+        <div class="sidebar">
+            <div class="analysis-panel">
+                <div class="analysis-header" id="readout-title">System Ready</div>
+                <div class="analysis-body" id="readout-body">
+                    Initialize diagnostic sequence by selecting an anatomical focal point. Retrieve biological datasets from the Exalted specimen.
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div style="font-size: 0.6rem; text-transform: uppercase; color: var(--blood); margin-bottom: 10px; letter-spacing: 1px;">METABOLIC METRICS</div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="font-size: 0.7rem; display: flex; justify-content: space-between;">
+                        <span>Thermosynthesis</span>
+                        <span style="color: var(--bone)">ACTIVE</span>
+                    </div>
+                    <div style="height: 1px; background: var(--blood); width: 94%;"></div>
+                    
+                    <div style="font-size: 0.7rem; display: flex; justify-content: space-between;">
+                        <span>Lithophagy Rate</span>
+                        <span style="color: var(--bone)">0.4kg/hr</span>
+                    </div>
+                    <div style="height: 1px; background: var(--blood); width: 88%;"></div>
+
+                    <div style="font-size: 0.7rem; display: flex; justify-content: space-between;">
+                        <span>Integument Integrity</span>
+                        <span style="color: var(--bone)">100%</span>
+                    </div>
+                    <div style="height: 1px; background: var(--blood); width: 100%;"></div>
+                </div>
+            </div>
+
+            <div style="margin-top: auto; border: 0.5px solid var(--border-subtle); padding: 15px; font-size: 0.7rem; color: var(--text-muted); line-height: 1.5;">
+                <span style="color: var(--blood); font-weight: 800;">LAB ADVISORY:</span> The specimen is non-sentient in human terms. It operates on a logic of <i>perfected adaptation</i>. Do not interpret metabolic stress as pain.
+            </div>
+        </div>
+
+        <div class="dossier-footer">
+            GENOTYPE: <span>EXALTED-MEDUSA</span> // ATMOSPHERE: <span>ANXIC SULFUR</span> // METABOLISM: <span>THERMOVORIC</span>
+        </div>
+    </div>
+
+    <script>
+        const hotspotsData = [
+            {
+                title: "Ocular Rhizome",
+                text: "Multi-spectrum sensory organ. It processes thermal radiation and silicate-refraction patterns, allowing the specimen to 'see' through supersonic dust storms that would blind any organic eye.",
+                y: "12%", x: "50%"
+            },
+            {
+                title: "Lagnan Filtration Chamber",
+                text: "A triple-layered mucosal lung. It secretes a dense biological resin that traps and neutralizes airborne glass shards before they can penetrate the deeper tissue layers.",
+                y: "28%", x: "52%"
+            },
+            {
+                title: "Thermovoric Ventricle",
+                text: "The metabolic engine. It utilizes a process of Thermosynthesis to convert the ambient 450°C heat into biological energy. The specimen is most active when the environment is most lethal.",
+                y: "42%", x: "50%"
+            },
+            {
+                title: "Lithophagous Grinder",
+                text: "A mineral-digesting stomach. It utilizes concentrated bio-acids to break down volcanic basalt, extracting essential silicates and metals to reinforce the skeletal honeycomb.",
+                y: "58%", x: "50%"
+            },
+            {
+                title: "Obsidian Integument",
+                text: "A self-repairing silicate epithelium. Harder than quartz and resistant to thermal shock, it functions as both armor and a massive solar-thermal collector for metabolism.",
+                y: "45%", x: "28%"
+            }
+        ];
+
+        const titleEl = document.getElementById('readout-title');
+        const bodyEl = document.getElementById('readout-body');
+        let typingTimeout;
+
+        function initHotspots() {
+            const layer = document.getElementById('hotspots-layer');
+            hotspotsData.forEach(point => {
+                const el = document.createElement('div');
+                el.className = 'hotspot';
+                el.style.top = point.y;
+                el.style.left = point.x;
+                el.onclick = () => {
+                    document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('scanned'));
+                    el.classList.add('scanned');
+                    triggerReadout(point);
+                };
+                layer.appendChild(el);
+            });
+        }
+
+        function triggerReadout(data) {
+            titleEl.innerText = `ANALYSIS: ${data.title}`;
+            typeText(data.text);
+        }
+
+        function typeText(text) {
+            clearTimeout(typingTimeout);
+            bodyEl.innerHTML = '';
+            let i = 0;
+            const speed = 5;
+            
+            function run() {
+                if (i < text.length) {
+                    bodyEl.innerHTML += text.charAt(i);
+                    i++;
+                    typingTimeout = setTimeout(run, speed);
+                }
+            }
+            run();
+        }
+
+        function switchMainView(type) {
+            const anatomyView = document.getElementById('view-anatomy');
+            const envView = document.getElementById('view-env');
+            const videoView = document.getElementById('view-video');
+            const sidebarSpec = document.getElementById('sidebar-specimen');
+            const sidebarEnv = document.getElementById('sidebar-env');
+            const btnSpec = document.getElementById('btn-specimen');
+            const btnEnv = document.getElementById('btn-env');
+
+            if (type === 'specimen') {
+                anatomyView.classList.remove('hidden');
+                envView.classList.add('hidden');
+                videoView.classList.add('hidden');
+                sidebarSpec.classList.remove('hidden');
+                sidebarEnv.classList.add('hidden');
+                btnSpec.classList.add('active');
+                btnEnv.classList.remove('active');
+            } else {
+                anatomyView.classList.add('hidden');
+                envView.classList.remove('hidden');
+                videoView.classList.add('hidden');
+                sidebarSpec.classList.add('hidden');
+                sidebarEnv.classList.remove('hidden');
+                btnSpec.classList.remove('active');
+                btnEnv.classList.add('active');
+            }
+        }
+
+        function playFeed(src) {
+            const videoView = document.getElementById('view-video');
+            const anatomyView = document.getElementById('view-anatomy');
+            const envView = document.getElementById('view-env');
+            const video = document.getElementById('video-player');
+            
+            // Update active button
+            document.querySelectorAll('.feed-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText.toLowerCase().includes(src.split('.')[0]) || (src === 'anatomy' && b.innerText.includes('Static'))) {
+                    b.classList.add('active');
+                }
+            });
+
+            if (src === 'anatomy') {
+                videoView.classList.add('hidden');
+                anatomyView.classList.remove('hidden');
+                envView.classList.add('hidden');
+                video.pause();
+            } else {
+                videoView.classList.remove('hidden');
+                anatomyView.classList.add('hidden');
+                envView.classList.add('hidden');
+                video.src = src;
+                video.play();
+            }
+        }
+
+        window.onload = initHotspots;
+    </script>
+</body>
+</html>

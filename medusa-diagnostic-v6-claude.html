@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESEARCH DOSSIER — EXALTED-MEDUSA STRAIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:        #0a0d12; /* Deep Obsidian Blue */
+            --bg-panel:  #11161d;
+            --bg-inset:  #05070a;
+            --bone:      #e0e6ed; /* Crisp Grey-White */
+            --bone-dim:  #a9b7c6;
+            --bone-faint:#4b5c6d;
+            --accent:    #4a9eff; /* Medusa Energy Blue */
+            --accent-mid: #2c5d94;
+            --accent-glow:rgba(74, 158, 255, 0.25);
+            --border:    rgba(169, 183, 198, 0.12);
+            --border-mid:rgba(169, 183, 198, 0.22);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--bone);
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px; /* Base for readability */
+        }
+
+        /* ═══════════════════════ SCROLLBARS ═══════════════════════ */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-mid); }
+
+        /* ═══════════════════════ ROOT GRID ═══════════════════════ */
+        .shell {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            grid-template-columns: 380px 1fr 350px; /* Wider sidebars */
+            gap: 0;
+            padding: 30px 35px 25px;
+            gap: 0 25px;
+        }
+
+        /* ═══════════════════════ HEADER ═══════════════════════════ */
+        .hdr {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 0;
+        }
+
+        .hdr-left .klass {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .hdr-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .hdr-right {
+            text-align: right;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            color: var(--bone-faint);
+            text-transform: uppercase;
+            line-height: 2.2;
+        }
+
+        .hdr-right .stamp {
+            color: var(--bone-dim);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ═══════════════════════ TAB NAV ═════════════════════════ */
+        .tab-bar {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 40px;
+            padding: 18px 0 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            color: var(--bone-faint);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding-bottom: 15px;
+            border-bottom: 2.5px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            top: 1px;
+        }
+
+        .tab:hover { color: var(--bone-dim); }
+        .tab.active { color: var(--bone); border-bottom-color: var(--accent); }
+
+        /* ═══════════════════════ SIDEBARS ═══════════════════════ */
+        .sidebar-left, .sidebar-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 10px;
+        }
+
+        /* ─── Left sidebar — Specimen Dossier ─── */
+        .dossier-block {
+            padding: 20px 0 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dossier-block:first-child { padding-top: 5px; }
+
+        .block-num {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .block-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .block-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--bone-dim);
+        }
+
+        .block-body em {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--bone);
+            font-weight: 500;
+        }
+
+        .block-tag {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid var(--accent-mid);
+            padding: 4px 12px;
+        }
+
+        /* ─── Environment sidebar (hidden by default) ─── */
+        .env-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .env-stat-item {
+            padding: 22px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .env-stat-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .env-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--bone);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .env-stat-desc {
+            font-size: 0.9rem;
+            color: var(--bone-dim);
+            line-height: 1.6;
+        }
+
+        .env-hazard-note {
+            margin-top: 30px;
+            padding: 20px;
+            border-left: 3px solid var(--accent);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        .env-hazard-note p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--bone-dim);
+            font-style: italic;
+        }
+
+        /* ═══════════════════════ CENTER VIEWPORT ════════════════ */
+        .viewport-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .display-frame {
+            flex: 1;
+            background: var(--bg-inset);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            min-height: 0;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .view-layer {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .view-layer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .view-layer img,
+        .view-layer video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Anatomy image: original colors restored */
+        #img-anatomy { filter: none; }
+
+        /* Planet image overlay */
+        #img-planet { filter: brightness(0.8) contrast(1.2); object-fit: cover; }
+
+        .planet-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 35px 40px;
+            background: linear-gradient(transparent, rgba(5,7,10,0.95) 70%);
+        }
+
+        .planet-caption h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .planet-caption p {
+            font-size: 0.95rem;
+            color: var(--bone-dim);
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        /* Corner ticks */
+        .tick {
+            position: absolute;
+            width: 18px; height: 18px;
+            border-color: var(--accent-mid);
+            border-style: solid;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .tick-tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+        .tick-tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
+        .tick-bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
+        .tick-br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+        /* ═══════════════════════ HOTSPOTS ════════════════════════ */
+        .hotspots-root {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent);
+            background: rgba(74, 158, 255, 0.15);
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .hotspot:hover {
+            background: var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.5);
+        }
+
+        .hotspot.active {
+            background: var(--accent);
+            box-shadow: 0 0 25px rgba(74, 158, 255, 0.6);
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+        }
+
+        /* Hotspot label */
+        .hotspot-label {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-45deg);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bone);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-shadow: 0 0 10px rgba(0,0,0,1);
+        }
+
+        .hotspot:hover .hotspot-label,
+        .hotspot.active .hotspot-label {
+            opacity: 1;
+        }
+
+        /* ═══════════════════════ VIDEO CONTROLS ══════════════════ */
+        .video-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .feed-btn {
+            background: none;
+            border: 1px solid var(--border-mid);
+            color: var(--bone-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feed-btn:hover { color: var(--bone); border-color: var(--accent); }
+        .feed-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .feed-btn.exit { border-color: var(--accent-mid); color: var(--accent); }
+        .feed-btn.exit:hover { background: var(--accent); color: #fff; }
+
+        .access-feed-btn {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: center;
+        }
+
+        .access-feed-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* ═══════════════════════ RIGHT SIDEBAR ═══════════════════ */
+        /* Readout panel */
+        .readout-panel {
+            border: 1px solid var(--accent-mid);
+            padding: 25px;
+            background: var(--bg-panel);
+            flex-shrink: 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .readout-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .readout-sub {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .readout-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bone);
+        }
+
+        .readout-body {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--bone-dim);
+            min-height: 120px;
+        }
+
+        .readout-body.typing::after {
+            content: "▌";
+            color: var(--accent);
+            animation: blink 0.6s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Metrics */
+        .metrics-section {
+            padding-top: 25px;
+            flex: 1;
+        }
+
+        .metrics-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--bone-faint);
+            margin-bottom: 20px;
+        }
+
+        .metric-row {
+            margin-bottom: 18px;
+        }
+
+        .metric-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--bone-dim);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .metric-head span:last-child {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .bar-track {
+            height: 3px;
+            background: rgba(169, 183, 198, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            transform-origin: left;
+            transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Research note */
+        .research-note {
+            margin-top: auto;
+            padding: 18px 20px;
+            border-left: 3px solid var(--accent-mid);
+            background: rgba(74, 158, 255, 0.04);
+            flex-shrink: 0;
+        }
+
+        .research-note p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--bone-faint);
+            font-style: italic;
+        }
+
+        .research-note b {
+            color: var(--bone-dim);
+            font-style: normal;
+        }
+
+        /* ═══════════════════════ FOOTER ══════════════════════════ */
+        .footer {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--bone-faint);
+        }
+
+        .footer span { color: var(--accent); font-weight: 800; }
+
+        /* ═══════════════════════ UTILITY ══════════════════════════ */
+        .hidden { display: none !important; }
+        .vis-hidden { visibility: hidden; }
+
+        /* Subtle grain overlay */
+        .shell::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║           HEADER             ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+    <header class="hdr">
+        <div class="hdr-left">
+            <span class="klass">Classified — Level IV Clearance Required</span>
+            <h1>Research Dossier: Exalted-Medusa Strain</h1>
+        </div>
+        <div class="hdr-right">
+            <div>Medusa Prime Xenobiology Institute</div>
+            <div class="stamp">Dossier Ref: XBI-7741-EMS&nbsp;&nbsp;|&nbsp;&nbsp;Revision 6.0</div>
+            <div>Subject Status: <span>Stable — Contained</span></div>
+        </div>
+    </header>
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║            TAB BAR           ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+    <nav class="tab-bar">
+        <button class="tab active" id="tab-specimen" onclick="switchTab('specimen')">Specimen Analysis</button>
+        <button class="tab" id="tab-env" onclick="switchTab('env')">Environmental Analysis: Medusa Prime</button>
+    </nav>
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║         LEFT SIDEBAR         ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+
+    <!-- SPECIMEN DOSSIER -->
+    <aside class="sidebar-left" id="sidebar-specimen">
+
+        <div class="dossier-block">
+            <span class="block-num">System 01 — Neural Architecture</span>
+            <div class="block-title">Neural Rhizome</div>
+            <p class="block-body">
+                Decentralized neural mesh embedded throughout the musculoskeletal matrix. Provides operational continuity even after massive structural compromise.
+            </p>
+            <span class="block-tag">Latency: < 0.4ms</span>
+        </div>
+
+        <div class="dossier-block">
+            <span class="block-num">System 02 — Haematological Circuit</span>
+            <div class="block-title">Lagnan & Cobalt-Blood</div>
+            <p class="block-body">
+                Cobalt-hemocyanin haemolymph that transports thermal energy. The Lagnan organ filters volcanic particulate and neutralizes toxic sulfur dioxide.
+            </p>
+            <span class="block-tag">Temp: ~390°C (Peak)</span>
+        </div>
+
+        <div class="dossier-block">
+            <span class="block-num">System 03 — Structural Matrix</span>
+            <div class="block-title">Lithic Honeycomb Skeleton</div>
+            <p class="block-body">
+                Biomineralised silicate-obsidian composite skeleton. Closed-cell honeycomb lattice maximizes resistance to 1.25G gravity while enabling rapid heat dissipation.
+            </p>
+            <span class="block-tag">Strength: ~15 GPa</span>
+        </div>
+
+    </aside>
+
+    <!-- ENVIRONMENT SIDEBAR (hidden initially) -->
+    <aside class="sidebar-left hidden" id="sidebar-env">
+        <div class="env-stats">
+
+            <div class="env-stat-item">
+                <div class="env-stat-label">Surface Gravity</div>
+                <div class="env-stat-value">1.25<small style="font-size:1.5rem;color:var(--bone-dim)"> G</small></div>
+                <div class="env-stat-desc">Extreme gravitational pull. Requires the Lithic Honeycomb skeleton for structural stability.</div>
+            </div>
+
+            <div class="env-stat-item">
+                <div class="env-stat-label">Mean Surface Temperature</div>
+                <div class="env-stat-value">450<small style="font-size:1.5rem;color:var(--bone-dim)"> °C</small></div>
+                <div class="env-stat-desc">Lethal volcanic heat. Utilized by the specimen for primary thermosynthetic metabolism.</div>
+            </div>
+
+            <div class="env-stat-item">
+                <div class="env-stat-label">Atmospheric Composition</div>
+                <div class="env-stat-value" style="font-size:1.8rem;">Anoxic<br><small style="font-size:1.2rem;">Sulfuric</small></div>
+                <div class="env-stat-desc">62% SO₂. Inhospitable for aerobic life. Neutralized by the Lagnan Filtration Chamber.</div>
+            </div>
+
+            <div class="env-stat-item">
+                <div class="env-stat-label">The Glass Wind</div>
+                <div class="env-stat-value" style="font-size:1.8rem;">Mach 2.4</div>
+                <div class="env-stat-desc">Supersonic silicate storms. Capable of total organic ablation; resisted by the Obsidian Integument.</div>
+            </div>
+
+        </div>
+
+        <div class="env-hazard-note">
+            <p><b>Field Assessment:</b> Medusa Prime is a Class-V furnace world. The Exalted Strain is the only organism engineered for indefinite surface habitation.</p>
+        </div>
+    </aside>
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║        CENTER VIEWPORT       ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+    <section class="viewport-col">
+
+        <div class="display-frame">
+            <!-- Corner ticks -->
+            <div class="tick tick-tl"></div>
+            <div class="tick tick-tr"></div>
+            <div class="tick tick-bl"></div>
+            <div class="tick tick-br"></div>
+
+            <!-- Anatomy view -->
+            <div class="view-layer" id="view-anatomy">
+                <img id="img-anatomy" src="medusa-anatomy.png" alt="Anatomical Cross-Section — Exalted-Medusa">
+                <div class="hotspots-root" id="hotspots-container"></div>
+            </div>
+
+            <!-- Planet view -->
+            <div class="view-layer hidden" id="view-planet">
+                <img id="img-planet" src="medusa.png" alt="Medusa Prime — Surface Scan">
+                <div class="planet-caption">
+                    <h3>Volcanic Basin Survey</h3>
+                    <p>Obsidian plains and active magma vents. Zero organic matter detected outside the Exalted Strain.</p>
+                </div>
+            </div>
+
+            <!-- Video view -->
+            <div class="view-layer hidden" id="view-video">
+                <video id="research-video" muted loop playsinline>
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Bottom controls row -->
+        <div class="controls-row" id="ctrl-anatomy">
+            <button class="access-feed-btn" onclick="enterVideoFeed()">▶ Access Research Feed</button>
+        </div>
+
+        <div class="controls-row hidden" id="ctrl-video">
+            <button class="feed-btn active" id="btn-anatomy-feed" onclick="playFeed('video anatomia.mp4', this)">Internal View</button>
+            <button class="feed-btn" id="btn-modelo" onclick="playFeed('modelo con base.mp4', this)">Static Pose</button>
+            <button class="feed-btn" id="btn-caminando" onclick="playFeed('caminando.mp4', this)">Locomotion</button>
+            <button class="feed-btn" id="btn-gritando" onclick="playFeed('gritanto.mp4', this)">Stress Test</button>
+            <button class="feed-btn exit" onclick="exitVideoFeed()">✕ Close Feed</button>
+        </div>
+
+    </section>
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║        RIGHT SIDEBAR         ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+    <aside class="sidebar-right" id="sidebar-right">
+
+        <!-- Readout panel -->
+        <div class="readout-panel">
+            <div class="readout-title-row">
+                <div>
+                    <span class="readout-sub" id="readout-sub">Bioscan Ready</span>
+                    <div class="readout-title" id="readout-title">Select a focal point</div>
+                </div>
+            </div>
+            <div class="readout-body" id="readout-body">
+                Activate an anatomical marker to retrieve biological datasets.
+            </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="metrics-section">
+            <div class="metrics-label">Performance Index</div>
+
+            <div class="metric-row">
+                <div class="metric-head"><span>Neutralization</span><span>98.4%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 98.4%;"></div></div>
+            </div>
+            <div class="metric-row">
+                <div class="metric-head"><span>Heat Resistance</span><span>450°C</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
+            </div>
+            <div class="metric-row">
+                <div class="metric-head"><span>Thermosynthesis</span><span>1.2 GW/h</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
+            </div>
+            <div class="metric-row">
+                <div class="metric-head"><span>Skeletal Strength</span><span>15.0 GPa</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div>
+            </div>
+        </div>
+
+        <!-- Research note -->
+        <div class="research-note">
+            <p>
+                <b>Note:</b> Irreversible biological shifts represent the complete rejection of organic fragility. The specimen cannot revert.
+            </p>
+        </div>
+
+    </aside>
+
+    <!-- ╔══════════════════════════════╗ -->
+    <!-- ║            FOOTER            ║ -->
+    <!-- ╚══════════════════════════════╝ -->
+    <footer class="footer">
+        <div>Genotype: <span>Exalted-Medusa</span></div>
+        <div>Haemolymph: <span>Cobalt-Hemocyanin</span></div>
+        <div>Nociception: <span>Null</span></div>
+    </footer>
+
+</div><!-- .shell -->
+
+<script>
+    // ════════════════════════════════════════
+    // HOTSPOT DATA
+    // ════════════════════════════════════════
+    const hotspotData = [
+        {
+            id: 'ocular',
+            title: 'Ocular Rhizome',
+            sub: 'Sensory — 01',
+            text: 'Neural expansion of the visual cortex. Uses bioluminescent pulses to map surroundings in zero-light, high-ash environments.',
+            top: '8%', left: '52.5%'
+        },
+        {
+            id: 'lagnan',
+            title: 'Lagnan Filtration',
+            sub: 'Respiratory — 02',
+            text: 'Triple-stage mucosal organ. Traps silicate micro-shards and processes toxic sulfur dioxide into metabolic energy.',
+            top: '20%', left: '52.5%'
+        },
+        {
+            id: 'heart',
+            title: 'Thermovoric Ventricle',
+            sub: 'Metabolic — 03',
+            text: 'Primary engine for thermosynthesis. Directly converts ambient volcanic heat (450°C+) into biological energy.',
+            top: '28%', left: '51.5%'
+        },
+        {
+            id: 'stomach',
+            title: 'Lithophagous Grinder',
+            sub: 'Digestive — 04',
+            text: 'Hyper-muscular mill. Dissolves basaltic regolith via bio-acids to biomineralize the silicate-obsidian skeleton.',
+            top: '38%', left: '52.5%'
+        },
+        {
+            id: 'skin',
+            title: 'Obsidian Integument',
+            sub: 'Dermal — 05',
+            text: 'Self-repairing silicate epithelium. Harder than quartz; provides total thermal insulation and immunity to atmospheric abrasion.',
+            top: '45%', left: '40%'
+        }
+    ];
+
+    // ════════════════════════════════════════
+    // HOTSPOT INIT
+    // ════════════════════════════════════════
+    const container   = document.getElementById('hotspots-container');
+    const readoutSub  = document.getElementById('readout-sub');
+    const readoutTitle= document.getElementById('readout-title');
+    const readoutBody = document.getElementById('readout-body');
+    let   isTyping    = false;
+    let   typeTimer   = null;
+
+    function buildHotspots() {
+        hotspotData.forEach(d => {
+            const el = document.createElement('div');
+            el.className = 'hotspot';
+            el.style.top  = d.top;
+            el.style.left = d.left;
+            el.setAttribute('data-id', d.id);
+
+            const lbl = document.createElement('span');
+            lbl.className = 'hotspot-label';
+            lbl.textContent = d.title;
+            el.appendChild(lbl);
+
+            el.addEventListener('click', () => {
+                document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+                el.classList.add('active');
+                showReadout(d);
+            });
+
+            container.appendChild(el);
+        });
+    }
+
+    function showReadout(d) {
+        readoutSub.textContent  = d.sub;
+        readoutTitle.textContent = d.title;
+        typeText(d.text);
+    }
+
+    function typeText(text) {
+        if (typeTimer) clearTimeout(typeTimer);
+        isTyping = true;
+        readoutBody.innerHTML = '';
+        readoutBody.classList.add('typing');
+        let i = 0;
+
+        function tick() {
+            if (i < text.length) {
+                readoutBody.innerHTML += text.charAt(i++);
+                typeTimer = setTimeout(tick, 5);
+            } else {
+                readoutBody.classList.remove('typing');
+                isTyping = false;
+            }
+        }
+        tick();
+    }
+
+    // ════════════════════════════════════════
+    // TAB SWITCHING
+    // ════════════════════════════════════════
+    function switchTab(tab) {
+        const sSpec = document.getElementById('sidebar-specimen');
+        const sEnv  = document.getElementById('sidebar-env');
+        const vAnat = document.getElementById('view-anatomy');
+        const vPlan = document.getElementById('view-planet');
+        const ctrlA = document.getElementById('ctrl-anatomy');
+        const ctrlV = document.getElementById('ctrl-video');
+        const tSpec = document.getElementById('tab-specimen');
+        const tEnv  = document.getElementById('tab-env');
+
+        exitVideoFeed(true); // silent exit
+
+        if (tab === 'specimen') {
+            sSpec.classList.remove('hidden');
+            sEnv.classList.add('hidden');
+            vAnat.classList.remove('hidden');
+            vPlan.classList.add('hidden');
+            ctrlA.classList.remove('hidden');
+            tSpec.classList.add('active');
+            tEnv.classList.remove('active');
+        } else {
+            sSpec.classList.add('hidden');
+            sEnv.classList.remove('hidden');
+            vAnat.classList.add('hidden');
+            vPlan.classList.remove('hidden');
+            ctrlA.classList.add('hidden');
+            ctrlV.classList.add('hidden');
+            tEnv.classList.add('active');
+            tSpec.classList.remove('active');
+        }
+    }
+
+    // ════════════════════════════════════════
+    // VIDEO FEED
+    // ════════════════════════════════════════
+    function enterVideoFeed() {
+        document.getElementById('view-anatomy').classList.add('hidden');
+        document.getElementById('view-video').classList.remove('hidden');
+        document.getElementById('ctrl-anatomy').classList.add('hidden');
+        document.getElementById('ctrl-video').classList.remove('hidden');
+        // Auto-play internal view
+        playFeed('video_anatomia.mp4', document.getElementById('btn-anatomy-feed'));
+    }
+
+    function exitVideoFeed(silent) {
+        const vV = document.getElementById('view-video');
+        const vA = document.getElementById('view-anatomy');
+        const cV = document.getElementById('ctrl-video');
+        const cA = document.getElementById('ctrl-anatomy');
+
+        if (!vV.classList.contains('hidden')) {
+            vV.classList.add('hidden');
+            vA.classList.remove('hidden');
+            cV.classList.add('hidden');
+            if (!silent) cA.classList.remove('hidden');
+        }
+
+        const vid = document.getElementById('research-video');
+        vid.pause();
+        vid.src = '';
+
+        document.querySelectorAll('.feed-btn[id^="btn-"]').forEach(b => b.classList.remove('active'));
+    }
+
+    function playFeed(src, btn) {
+        const vid = document.getElementById('research-video');
+        vid.src = src;
+        vid.load();
+        vid.play().catch(() => {});
+        document.querySelectorAll('.feed-btn[id^="btn-"]').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+    }
+
+    // ════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════
+    buildHotspots();
+</script>
+
+</body>
+</html>
