@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGOS BIOLOGIS SLATE: MEDUSA-EXALTED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #1A1A1B;
+            --bone: #E0D7C1;
+            --magma: #FF4500;
+            --cobalt: #6A5ACD;
+            --accent-blue: #3b82f6;
+            --neon-green: #39FF14;
+            --card-bg: rgba(26, 26, 27, 0.85);
+            --border: rgba(224, 215, 193, 0.2);
+            --warning-red: #8B0000;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--obsidian);
+            background-image: 
+                linear-gradient(rgba(26, 26, 27, 0.85), rgba(26, 26, 27, 0.85)),
+                url('medusa.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--bone);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* HUD Scanline */
+        body::before {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .main-layout {
+            width: 98vw;
+            height: 96vh;
+            display: grid;
+            grid-template-columns: 380px 1fr 380px;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            color: var(--bone);
+            text-transform: uppercase;
+        }
+
+        .clearance {
+            font-size: 0.7rem;
+            color: var(--magma);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* SIDEBARS */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        summary {
+            padding: 12px;
+            cursor: pointer;
+            list-style: none;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--bone);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .details-content {
+            padding: 0 12px 12px 12px;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: rgba(224, 215, 193, 0.7);
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        /* VIEWPORT */
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .display-wrapper {
+            width: 100%;
+            flex-grow: 1;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video, .anatomy-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hidden { display: none !important; }
+
+        /* HOTSPOTS */
+        .hotspots-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 69, 0, 0.2);
+            border: 2px solid var(--magma);
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hotspot::after {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: var(--magma);
+            border-radius: 50%;
+        }
+
+        .hotspot.pulse { animation: pulse-magma 2s infinite; }
+        @keyframes pulse-magma {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 69, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+        }
+
+        .hotspot.scanned {
+            border-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.1);
+            animation: none;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+        .hotspot.scanned::after { background: var(--neon-green); }
+
+        /* HUD CONTROLS */
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .selector-group {
+            display: flex;
+            gap: 6px;
+            background: var(--card-bg);
+            padding: 5px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        .mode-btn, .video-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--bone);
+            padding: 3px 10px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 0.6rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .mode-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); }
+        .video-btn.active { background: var(--magma); border-color: var(--magma); }
+
+        /* DIAGNOSTIC READOUT */
+        .diagnostic-slate {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--accent-blue);
+            border-radius: 16px;
+            padding: 18px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .slate-header {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .typewriter-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: var(--neon-green);
+        }
+
+        .typing::after {
+            content: "█";
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* BIOMETRICS */
+        .biometric-module {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .biometric-module h3 {
+            margin: 0 0 10px 0;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--bone);
+            opacity: 0.6;
+        }
+
+        .metric-wrap { margin-bottom: 8px; }
+        .metric-info { font-size: 0.55rem; text-transform: uppercase; margin-bottom: 3px; display: flex; justify-content: space-between; font-weight: 600; }
+        .progress-rail { height: 3px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden; }
+        .progress-active { height: 100%; background: var(--magma); }
+
+        /* LORE FOOTER */
+        .footer-metrics {
+            position: absolute;
+            bottom: 12px;
+            right: 25px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(224, 215, 193, 0.4);
+            text-align: right;
+            pointer-events: none;
+        }
+        .footer-metrics b { color: var(--magma); }
+
+        .warning-module {
+            margin-top: auto;
+            padding: 10px;
+            background: rgba(139, 0, 0, 0.2);
+            border: 1px solid var(--warning-red);
+            border-radius: 12px;
+            font-size: 0.6rem;
+            color: #ff9999;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        <header>
+            <div>
+                <span class="clearance">CLEARANCE: VERMILLION-9 // MAGOS BIOLOGIS DATA-SLATE</span>
+                <h1>PROJECT MEDUSA-EXALTED // EVOLUTIONARY DOCUMENTATION</h1>
+            </div>
+            <div style="text-align: right; color: var(--bone); opacity: 0.5; font-size: 0.65rem; font-family: 'Share Tech Mono';">
+                ENCRYPTION: QUANTUM-LOCKED<br>
+                UPLINK: <span style="color: var(--neon-green)">SYNCHRONIZED</span>
+            </div>
+        </header>
+
+        <!-- LEFT SIDEBAR: ADVANCED BIOLOGICAL SPECIFICATIONS -->
+        <div class="sidebar">
+            <details open>
+                <summary>01. NEURAL SYNAPSIS</summary>
+                <div class="details-content">
+                    <p><b>Linkage:</b> Bio-Synthetic Integration. Synaptic pathways rerouted via hyper-conductive Neural Bundles to ensure absolute Latency Nullification. Cognitive response is managed by an integrated cerebral node.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>02. RESPIRATORY CYCLE</summary>
+                <div class="details-content">
+                    <p><b>Lagnan Membrane:</b> Triple-lung configuration. The primary Lagnan chamber is a specialized mucosal membrane that neutralizes silicate shards via hyper-viscous biological secretion. Internal lungs utilize Cobalt-Based Hemoglobin.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>03. STRUCTURAL FRAMEWORK</summary>
+                <div class="details-content">
+                    <p><b>Chassis:</b> Bio-organic honeycomb matrix with high-density silicate reinforcement. Engineered for sustained molecular cohesion under 15G stress. Subject represents the pinnacle of autarchic evolution.</p>
+                </div>
+            </details>
+
+            <div style="background: rgba(59, 130, 246, 0.1); border: 1px dashed var(--accent-blue); padding: 12px; border-radius: 12px; font-size: 0.6rem; color: var(--accent-blue);">
+                <b>ENVIRONMENTAL BASELINE</b><br>
+                Planet: Medusa Prime / Caustic Slurry<br>
+                Atmosphere: Suspended Silicate Glass / Ash<br>
+                Radiation Flux: 400mSv/h Gamma<br>
+                Biological Integrity: <span style="color: var(--neon-green)">STABLE</span>
+            </div>
+        </div>
+
+        <!-- CENTER VIEWPORT -->
+        <div class="center-container">
+            <div class="display-wrapper">
+                <!-- Live Feed -->
+                <video id="mainVideo" autoplay muted loop class="hidden">
+                    <source src="202604281134.mp4" type="video/mp4">
+                </video>
+                
+                <!-- Anatomy Scan Overlay -->
+                <div id="anatomyDisplay" style="width:100%; height:100%; position:relative;">
+                    <img src="medusa-anatomy.png" class="anatomy-image" alt="Anatomical Scan">
+                    
+                    <div class="hotspots-layer" id="hotspots-root">
+                        <!-- Hotspots injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="selector-group">
+                    <button class="mode-btn" onclick="switchMode('video')">Live Feed</button>
+                    <button class="mode-btn active" onclick="switchMode('anatomy')">Scan Mode</button>
+                </div>
+
+                <div id="videoControls" class="selector-group hidden">
+                    <button class="video-btn active" onclick="changeVideo('202604281134.mp4', this)">Primary</button>
+                    <button class="video-btn" onclick="changeVideo('202604281134 (1).mp4', this)">Thermal</button>
+                    <button class="video-btn" onclick="changeVideo('202604281134 (2).mp4', this)">Internal</button>
+                    <button class="video-btn" onclick="changeVideo('202604281134 (3).mp4', this)">Genetic</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR: BIOMETRICS & SLATE READOUT -->
+        <div class="sidebar">
+            <div class="diagnostic-slate">
+                <div class="slate-header" id="readout-title">Module Ready</div>
+                <div id="readout-body" class="typewriter-text">
+                    Awaiting bio-link to initiate localized anatomical deep-scan...
+                </div>
+            </div>
+
+            <div class="biometric-module">
+                <h3>Evolutionary Metrics</h3>
+                <div class="metric-wrap">
+                    <div class="metric-info"><span>Toxin Neutralization</span><span>98%</span></div>
+                    <div class="progress-rail"><div class="progress-active" style="width: 98%"></div></div>
+                </div>
+                <div class="metric-wrap">
+                    <div class="metric-info"><span>Ablative Silicate Dermis</span><span>450%</span></div>
+                    <div class="progress-rail"><div class="progress-active" style="width: 100%; background: #FFD700;"></div></div>
+                </div>
+                <div class="metric-wrap">
+                    <div class="metric-info"><span>Energy Output Potential</span><span>1.2GW</span></div>
+                    <div class="progress-rail"><div class="progress-active" style="width: 92%; background: #00ffff;"></div></div>
+                </div>
+                <div class="metric-wrap">
+                    <div class="metric-info"><span>G-Force Tolerance</span><span>15G</span></div>
+                    <div class="progress-rail"><div class="progress-active" style="width: 95%; background: #ff00ff;"></div></div>
+                </div>
+                <div class="metric-wrap">
+                    <div class="metric-info"><span>Metabolic Recycling</span><span>99.9%</span></div>
+                    <div class="progress-rail"><div class="progress-active" style="width: 99%; background: var(--neon-green)"></div></div>
+                </div>
+            </div>
+
+            <div class="warning-module">
+                ⚠ WARNING: UNAUTHORIZED ACCESS TO THESE GENETIC BLUEPRINTS IS PUNISHABLE BY SERVITOR-CONVERSION. GLORY TO THE OMNISSIAH. ⚠
+            </div>
+        </div>
+
+        <div class="footer-metrics">
+            STRAIN: <b>EXALTED-MEDUSA</b> // HEMOGLOBIN: <b>COBALT-BASED</b> // PAIN-RECEPTION: <b>DISABLED</b>
+        </div>
+    </div>
+
+    <script>
+        const hotspotsData = [
+            {
+                id: 'eyes',
+                title: 'BIO-SYNTHETIC OCULAR ARRAY',
+                text: 'Hyper-specialized retinas and organic LIDAR-tissue map the environment through ash clouds. Multi-spectrum processing is managed by hyper-conductive neural bundles, bypassing organic synaptic limitations.',
+                pos: { top: '10%', left: '50%' }
+            },
+            {
+                id: 'lagnan',
+                title: 'LAGNAN RESPIRATORY CHAMBER',
+                text: 'Hyper-specialized mucosal membrane chamber with high-pressure sphincters. Catches and neutralizes silicate micro-shards through hyper-viscous biological secretion. Enables vocalization in anoxic environments.',
+                pos: { top: '25%', left: '50%' }
+            },
+            {
+                id: 'core',
+                title: 'METABOLIC ENERGY ORGAN',
+                text: 'Hyper-metabolic organic fusion chamber utilizes radiological enzymes to convert gamma flux and ambient thermal energy into liquid plasma (ATP+). Maintains biological containment of energy surges.',
+                pos: { top: '38%', left: '50%' }
+            },
+            {
+                id: 'palms',
+                title: 'BIO-CONDUCTIVE DISCHARGE PORES',
+                text: 'Vascular conduits carry high-energy plasma to specialized discharge pores in the epidermis. Subject can expel directed energy bursts for environmental manipulation or defense.',
+                pos: { top: '50%', left: '35%' }
+            },
+            {
+                id: 'stomach',
+                title: 'LITHIC VENTRICLE',
+                text: 'Hyper-acidic stomach with reinforced organic lining performs biological mining. Dissolves volcanic rock into raw silicates to extract minerals for skeleton reinforcement and dermal repair.',
+                pos: { top: '52%', left: '52%' }
+            },
+            {
+                id: 'guts',
+                title: 'METABOLIC RECYCLING SYSTEM',
+                text: 'Autarchic biomass circuit ensuring 99.9% efficiency. Reabsorbs cellular waste and moisture, eliminating the need for external organic nutrient intake for sustained durations.',
+                pos: { top: '68%', left: '50%' }
+            },
+            {
+                id: 'skin',
+                title: 'ABLATIVE SILICATE DERMIS',
+                text: 'Bio-engineered keratin-silicate composite plating. Immune to extreme erosion and high-thermal environments. Integrated self-healing biological matrix ensures permanent structural integrity.',
+                pos: { top: '45%', left: '25%' }
+            }
+        ];
+
+        const hotspotsRoot = document.getElementById('hotspots-root');
+        const readoutTitle = document.getElementById('readout-title');
+        const readoutBody = document.getElementById('readout-body');
+        let isTyping = false;
+
+        function initHotspots() {
+            hotspotsData.forEach(data => {
+                const el = document.createElement('div');
+                el.className = 'hotspot pulse';
+                el.style.top = data.pos.top;
+                el.style.left = data.pos.left;
+                
+                el.addEventListener('click', (e) => {
+                    document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('scanned'));
+                    el.classList.add('scanned');
+                    el.classList.remove('pulse');
+                    startScan(data);
+                });
+
+                hotspotsRoot.appendChild(el);
+            });
+        }
+
+        function startScan(data) {
+            readoutTitle.innerText = `ANALYZE: ${data.title}`;
+            typeText(data.text);
+        }
+
+        function typeText(text) {
+            if (isTyping) return;
+            isTyping = true;
+            readoutBody.innerHTML = '';
+            readoutBody.classList.add('typing');
+            
+            let i = 0;
+            const speed = 12;
+
+            function type() {
+                if (i < text.length) {
+                    readoutBody.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    readoutBody.classList.remove('typing');
+                    isTyping = false;
+                }
+            }
+            type();
+        }
+
+        function switchMode(mode) {
+            const video = document.getElementById('mainVideo');
+            const anatomy = document.getElementById('anatomyDisplay');
+            const vControls = document.getElementById('videoControls');
+            const btns = document.querySelectorAll('.mode-btn');
+
+            btns.forEach(b => b.classList.remove('active'));
+            
+            if (mode === 'video') {
+                video.classList.remove('hidden');
+                anatomy.classList.add('hidden');
+                vControls.classList.remove('hidden');
+                btns[0].classList.add('active');
+            } else {
+                video.classList.add('hidden');
+                anatomy.classList.remove('hidden');
+                vControls.classList.add('hidden');
+                btns[1].classList.add('active');
+            }
+        }
+
+        function changeVideo(src, btn) {
+            const video = document.getElementById('mainVideo');
+            video.src = src;
+            video.play();
+            document.querySelectorAll('.video-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        initHotspots();
+    </script>
+</body>
+</html>

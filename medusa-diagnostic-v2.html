@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DE DIAGNÓSTICO: MEDUSA-EXALTED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050507;
+            --magma: #FF4500;
+            --neon-green: #39FF14;
+            --cobalt: #2e5bff;
+            --text-gray: #a0a0a5;
+            --ui-border: rgba(46, 91, 255, 0.3);
+            --panel-bg: rgba(10, 10, 15, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Scanline effect */
+        body::before {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .diagnostic-interface {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--ui-border);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 10;
+        }
+
+        .header-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--cobalt);
+        }
+
+        .status-tag {
+            background: var(--magma);
+            color: #000;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        /* Video Container and Overlays */
+        .main-viewport {
+            position: relative;
+            flex-grow: 1;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid var(--ui-border);
+            background: #000;
+        }
+
+        #central-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hotspots-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20;
+        }
+
+        /* Hotspot Styling */
+        .hotspot {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 69, 0, 0.2);
+            border: 2px solid var(--magma);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hotspot::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--magma);
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .hotspot.pulse {
+            animation: pulse-orange 2s infinite;
+        }
+
+        @keyframes pulse-orange {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 69, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+        }
+
+        .hotspot.scanned {
+            border-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.1);
+            animation: none;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .hotspot.scanned::before {
+            background: var(--neon-green);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: absolute;
+            right: 40px;
+            top: 100px;
+            width: 350px;
+            background: var(--panel-bg);
+            border-left: 4px solid var(--cobalt);
+            padding: 20px;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+            pointer-events: none;
+            box-shadow: -20px 0 50px rgba(0,0,0,0.8);
+        }
+
+        .info-panel.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .info-header {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cobalt);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--ui-border);
+            padding-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #eee;
+        }
+
+        .info-body b {
+            color: var(--neon-green);
+        }
+
+        /* Bottom Corner Lore */
+        .lore-corner {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            letter-spacing: 1px;
+            z-index: 10;
+            text-align: right;
+            text-transform: uppercase;
+        }
+
+        .lore-item {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .lore-item span {
+            color: var(--magma);
+            font-weight: bold;
+        }
+
+        /* Close button for panel */
+        .close-panel {
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Typewriter Cursor */
+        .typing::after {
+            content: "|";
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* HUD Decorations */
+        .hud-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--ui-border);
+            pointer-events: none;
+        }
+        .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+    </style>
+</head>
+<body>
+
+    <div class="diagnostic-interface">
+        <header>
+            <div>
+                <div class="header-title">BIOLOGIS-OMNIS // SCAN_INTERFACE_V4.2</div>
+                <div class="status-tag">SUBJECT: EXALTED-MEDUSA</div>
+            </div>
+            <div style="text-align: right; font-size: 0.8rem; color: var(--text-gray);">
+                ENCRYPTION: LEVEL 9<br>
+                SIGNAL: STABLE
+            </div>
+        </header>
+
+        <main class="main-viewport">
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner top-right"></div>
+            <div class="hud-corner bottom-left"></div>
+            <div class="hud-corner bottom-right"></div>
+
+            <video id="central-video" autoplay muted loop>
+                <source src="202604281134.mp4" type="video/mp4">
+            </video>
+
+            <div class="hotspots-overlay" id="hotspots-root">
+                <!-- Hotspots will be injected here via JS -->
+            </div>
+
+            <!-- Panel de información -->
+            <div class="info-panel" id="info-panel">
+                <div class="info-header">
+                    <span id="panel-title">SYSTEM_LOG</span>
+                    <span class="close-panel" onclick="closePanel()">×</span>
+                </div>
+                <div class="info-body" id="panel-body">
+                    Haga clic en un punto de interés para iniciar el escaneo...
+                </div>
+            </div>
+        </main>
+
+        <div class="lore-corner">
+            <div class="lore-item">Genotype: <span>Exalted-Medusa</span></div>
+            <div class="lore-item">Hemoglobin: <span>Cobalt-Based</span></div>
+            <div class="lore-item">Pain Reception: <span>Disabled</span></div>
+        </div>
+    </div>
+
+    <script>
+        const hotspotsData = [
+            {
+                id: 'larynx',
+                title: 'TRIPLE LUNG // LARINGE',
+                text: 'Configuración de tres pulmones. El pulmón superior actúa como filtro de silicatos y ceniza volcánica. Expulsa vapor ácido a alta presión para limpiar conductos.',
+                pos: { top: '30%', left: '50%' }
+            },
+            {
+                id: 'heart',
+                title: 'RADIOLYSIS CORE // CORAZÓN',
+                text: 'Núcleo de energía de fusión biológica. Convierte radiación gamma en ATP. Capacidad de descarga bio-eléctrica ofensiva detectada.',
+                pos: { top: '45%', left: '42%' }
+            },
+            {
+                id: 'stomach',
+                title: 'LITHIC VENTRICLE // ESTÓMAGO',
+                text: 'Procesamiento de regolito. Ácidos grado industrial disuelven minerales para refuerzo óseo. Sistema de reciclaje de biomasa de circuito cerrado (99% eficiencia).',
+                pos: { top: '55%', left: '55%' }
+            },
+            {
+                id: 'arm',
+                title: 'OBSIDIAN DERMIS // BRAZO',
+                text: 'Polímero de queratina y silicio. Absorción térmica atmosférica. Resistencia a temperaturas de hasta 450°C.',
+                pos: { top: '40%', left: '68%' }
+            },
+            {
+                id: 'legs',
+                title: 'TORSION TENDONS // PIERNAS',
+                text: 'Fibras musculares reforzadas para operación continua en gravedad de 1.2G. Latencia neural casi nula.',
+                pos: { top: '80%', left: '50%' }
+            }
+        ];
+
+        const hotspotsRoot = document.getElementById('hotspots-root');
+        const infoPanel = document.getElementById('info-panel');
+        const panelTitle = document.getElementById('panel-title');
+        const panelBody = document.getElementById('panel-body');
+
+        let isTyping = false;
+
+        function initHotspots() {
+            hotspotsData.forEach(data => {
+                const el = document.createElement('div');
+                el.className = 'hotspot pulse';
+                el.style.top = data.pos.top;
+                el.style.left = data.pos.left;
+                el.setAttribute('data-id', data.id);
+                
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleHotspotClick(el, data);
+                });
+
+                hotspotsRoot.appendChild(el);
+            });
+        }
+
+        function handleHotspotClick(element, data) {
+            // UI Feedback
+            document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('scanned'));
+            element.classList.add('scanned');
+            element.classList.remove('pulse');
+
+            // Show Panel
+            infoPanel.classList.add('active');
+            panelTitle.innerText = data.title;
+            
+            typeWriter(data.text);
+        }
+
+        function typeWriter(text) {
+            if (isTyping) return;
+            isTyping = true;
+            panelBody.innerHTML = '';
+            panelBody.classList.add('typing');
+            
+            let i = 0;
+            const speed = 25; // ms per char
+
+            function type() {
+                if (i < text.length) {
+                    panelBody.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    panelBody.classList.remove('typing');
+                    isTyping = false;
+                }
+            }
+            type();
+        }
+
+        function closePanel() {
+            infoPanel.classList.remove('active');
+            document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('scanned'));
+            // Optionally add pulse back or keep it static
+        }
+
+        // Close on background click
+        document.querySelector('.main-viewport').addEventListener('click', () => {
+            // closePanel();
+        });
+
+        initHotspots();
+    </script>
+</body>
+</html>
