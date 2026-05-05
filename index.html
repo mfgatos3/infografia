@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESEARCH DOSSIER — EXALTED-MEDUSA STRAIN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <title>PROJECT MEDUSA — CRYOGENIC RESEARCH DOSSIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg:        #0a0d12; /* Deep Obsidian Blue */
-            --bg-panel:  #11161d;
-            --bg-inset:  #05070a;
-            --bone:      #e0e6ed; /* Crisp Grey-White */
+            --bg:        #050a10; /* Deep Space Obsidian */
+            --bg-panel:  #0a141d;
+            --bg-inset:  #02060a;
+            --bone:      #e0e6ed; /* Frost White */
             --bone-dim:  #a9b7c6;
             --bone-faint:#4b5c6d;
-            --accent:    #4a9eff; /* Medusa Energy Blue */
-            --accent-mid: #2c5d94;
-            --accent-glow:rgba(74, 158, 255, 0.25);
-            --border:    rgba(169, 183, 198, 0.12);
-            --border-mid:rgba(169, 183, 198, 0.22);
+            --accent:    #4a9eff; /* Cold Energy Blue */
+            --accent-mid: #1a4b8c;
+            --alert:     #8b0000; /* Deep Alert Red */
+            --border:    rgba(169, 183, 198, 0.1);
+            --border-mid:rgba(74, 158, 255, 0.2);
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,182 +27,146 @@
             overflow: hidden;
             background: var(--bg);
             color: var(--bone);
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px; /* Base for readability */
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
         }
 
-        /* ═══════════════════════ SCROLLBARS ═══════════════════════ */
+        /* --- Scrollbars --- */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--accent-mid); }
 
-        /* ═══════════════════════ ROOT GRID ═══════════════════════ */
+        /* --- Layout --- */
         .shell {
             width: 100vw;
             height: 100vh;
             display: grid;
             grid-template-rows: auto auto 1fr auto;
-            grid-template-columns: 380px 1fr 350px; /* Wider sidebars */
-            gap: 0;
-            padding: 30px 35px 25px;
-            gap: 0 25px;
+            grid-template-columns: 400px 1fr 380px;
+            padding: 30px 45px;
+            gap: 0 35px;
         }
 
-        /* ═══════════════════════ HEADER ═══════════════════════════ */
+        /* --- Header --- */
         .hdr {
             grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--accent);
-            margin-bottom: 0;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-mid);
+            margin-bottom: 25px;
         }
 
         .hdr-left .klass {
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 6px;
             text-transform: uppercase;
             color: var(--accent);
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .hdr-left h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            line-height: 1.1;
+            letter-spacing: -0.5px;
+            line-height: 1;
         }
 
         .hdr-right {
             text-align: right;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             color: var(--bone-faint);
             text-transform: uppercase;
-            line-height: 2.2;
         }
 
         .hdr-right .stamp {
             color: var(--bone-dim);
             font-weight: 600;
-            font-size: 0.85rem;
+            margin-top: 6px;
         }
 
-        /* ═══════════════════════ TAB NAV ═════════════════════════ */
+        /* --- Navigation --- */
         .tab-bar {
             grid-column: 1 / -1;
             display: flex;
-            gap: 40px;
-            padding: 18px 0 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 25px;
+            gap: 60px;
+            margin-bottom: 35px;
         }
 
         .tab {
             background: none;
             border: none;
             color: var(--bone-faint);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
             font-weight: 600;
-            letter-spacing: 2.5px;
+            letter-spacing: 3.5px;
             text-transform: uppercase;
             cursor: pointer;
-            padding-bottom: 15px;
-            border-bottom: 2.5px solid transparent;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            top: 1px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
         }
 
         .tab:hover { color: var(--bone-dim); }
         .tab.active { color: var(--bone); border-bottom-color: var(--accent); }
 
-        /* ═══════════════════════ SIDEBARS ═══════════════════════ */
+        /* --- Sidebars --- */
         .sidebar-left, .sidebar-right {
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-right: 10px;
+            padding-right: 15px;
         }
 
-        /* ─── Left sidebar — Specimen Dossier ─── */
         .dossier-block {
-            padding: 20px 0 20px;
+            padding: 28px 0;
             border-bottom: 1px solid var(--border);
         }
 
-        .dossier-block:first-child { padding-top: 5px; }
-
         .block-num {
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-            color: var(--accent);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--accent-mid);
             text-transform: uppercase;
+            margin-bottom: 12px;
             display: block;
-            margin-bottom: 8px;
         }
 
         .block-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--bone);
-            margin-bottom: 12px;
-            line-height: 1.2;
+            margin-bottom: 14px;
         }
 
         .block-body {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.8;
             color: var(--bone-dim);
         }
 
-        .block-body em {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: var(--bone);
-            font-weight: 500;
-        }
-
-        .block-tag {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent);
-            border: 1px solid var(--accent-mid);
-            padding: 4px 12px;
-        }
-
-        /* ─── Environment sidebar (hidden by default) ─── */
-        .env-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
+        /* --- Environmental Survey Specifics --- */
         .env-stat-item {
-            padding: 22px 0;
+            padding: 28px 0;
             border-bottom: 1px solid var(--border);
         }
 
         .env-stat-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .env-stat-value {
@@ -211,35 +175,20 @@
             font-weight: 700;
             color: var(--bone);
             line-height: 1;
-            margin-bottom: 8px;
         }
 
         .env-stat-desc {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--bone-dim);
-            line-height: 1.6;
-        }
-
-        .env-hazard-note {
-            margin-top: 30px;
-            padding: 20px;
-            border-left: 3px solid var(--accent);
-            background: rgba(74, 158, 255, 0.05);
-        }
-
-        .env-hazard-note p {
-            font-size: 0.9rem;
             line-height: 1.7;
-            color: var(--bone-dim);
-            font-style: italic;
+            margin-top: 10px;
         }
 
-        /* ═══════════════════════ CENTER VIEWPORT ════════════════ */
+        /* --- Viewport --- */
         .viewport-col {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            min-height: 0;
+            gap: 30px;
         }
 
         .display-frame {
@@ -248,8 +197,6 @@
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
-            min-height: 0;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
         }
 
         .view-layer {
@@ -258,96 +205,41 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.6s ease;
         }
 
-        .view-layer.hidden {
-            opacity: 0;
-            pointer-events: none;
+        .view-layer.hidden { opacity: 0; pointer-events: none; }
+
+        .view-layer img, .view-layer video {
+            width: 100%; height: 100%; object-fit: contain;
         }
 
-        .view-layer img,
-        .view-layer video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Anatomy image: original colors restored */
-        #img-anatomy { filter: none; }
-
-        /* Planet image overlay */
-        #img-planet { filter: brightness(0.8) contrast(1.2); object-fit: cover; }
-
-        .planet-caption {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 35px 40px;
-            background: linear-gradient(transparent, rgba(5,7,10,0.95) 70%);
-        }
-
-        .planet-caption h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        .planet-caption p {
-            font-size: 0.95rem;
-            color: var(--bone-dim);
-            line-height: 1.7;
-            max-width: 500px;
-        }
-
-        /* Corner ticks */
-        .tick {
-            position: absolute;
-            width: 18px; height: 18px;
-            border-color: var(--accent-mid);
-            border-style: solid;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .tick-tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-        .tick-tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
-        .tick-bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
-        .tick-br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
-
-        /* ═══════════════════════ HOTSPOTS ════════════════════════ */
-        .hotspots-root {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 10;
-        }
-
+        /* --- Hotspots --- */
         .hotspot {
             position: absolute;
-            width: 18px;
-            height: 18px;
+            width: 16px; height: 16px;
             border: 2px solid var(--accent);
-            background: rgba(74, 158, 255, 0.15);
+            background: rgba(74, 158, 255, 0.1);
             cursor: pointer;
             pointer-events: all;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translate(-50%, -50%) rotate(45deg);
+            z-index: 20;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hotspot:hover {
-            background: var(--accent-glow);
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: translate(-50%, -50%) rotate(45deg) scale(1.5);
-        }
-
-        .hotspot.active {
+        .hotspot:hover, .hotspot.active {
             background: var(--accent);
-            box-shadow: 0 0 25px rgba(74, 158, 255, 0.6);
-            transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+            box-shadow: 0 0 20px var(--accent);
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.4);
         }
 
-        /* Hotspot label */
+        /* Mode: No Dot (Text Only) */
+        .hotspot.no-dot {
+            width: 0; height: 0; border: none; background: none;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
         .hotspot-label {
             position: absolute;
             left: 25px;
@@ -359,612 +251,419 @@
             text-transform: uppercase;
             color: var(--bone);
             white-space: nowrap;
-            pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s;
-            text-shadow: 0 0 10px rgba(0,0,0,1);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            text-shadow: 0 0 8px rgba(0,0,0,1);
         }
 
-        .hotspot:hover .hotspot-label,
-        .hotspot.active .hotspot-label {
-            opacity: 1;
-        }
-
-        /* ═══════════════════════ VIDEO CONTROLS ══════════════════ */
-        .video-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .feed-btn {
-            background: none;
-            border: 1px solid var(--border-mid);
-            color: var(--bone-dim);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .feed-btn:hover { color: var(--bone); border-color: var(--accent); }
-        .feed-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        .feed-btn.exit { border-color: var(--accent-mid); color: var(--accent); }
-        .feed-btn.exit:hover { background: var(--accent); color: #fff; }
-
-        .access-feed-btn {
-            background: none;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            font-family: 'Outfit', sans-serif;
+        .hotspot.no-dot .hotspot-label {
+            opacity: 0.7;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%); /* Centered exactly on the coordinate */
+            pointer-events: all;
+            rotate: 0deg;
             font-size: 0.85rem;
-            font-weight: 700;
             letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 12px 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            align-self: center;
         }
 
-        .access-feed-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 0 20px var(--accent-glow);
+        .hotspot.no-dot:hover .hotspot-label, .hotspot.no-dot.active .hotspot-label {
+            opacity: 1;
+            color: var(--accent);
+            transform: translate(-50%, -50%) scale(1.1);
+            text-shadow: 0 0 15px var(--accent-mid);
         }
 
+        .hotspot:hover .hotspot-label, .hotspot.active .hotspot-label { opacity: 1; }
+
+        /* --- Controls --- */
         .controls-row {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            align-items: center;
+            gap: 20px;
+            padding-bottom: 15px;
         }
 
-        /* ═══════════════════════ RIGHT SIDEBAR ═══════════════════ */
-        /* Readout panel */
-        .readout-panel {
-            border: 1px solid var(--accent-mid);
-            padding: 25px;
-            background: var(--bg-panel);
-            flex-shrink: 0;
-            border-left: 4px solid var(--accent);
-        }
-
-        .readout-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .readout-sub {
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .readout-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--bone);
-        }
-
-        .readout-body {
-            font-size: 1rem;
-            line-height: 1.8;
+        .btn-lab {
+            background: none;
+            border: 1px solid var(--border-mid);
             color: var(--bone-dim);
-            min-height: 120px;
-        }
-
-        .readout-body.typing::after {
-            content: "▌";
-            color: var(--accent);
-            animation: blink 0.6s step-end infinite;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Metrics */
-        .metrics-section {
-            padding-top: 25px;
-            flex: 1;
-        }
-
-        .metrics-label {
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--bone-faint);
-            margin-bottom: 20px;
-        }
-
-        .metric-row {
-            margin-bottom: 18px;
-        }
-
-        .metric-head {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--bone-dim);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .metric-head span:last-child {
-            color: var(--accent);
-            font-weight: 800;
-        }
-
-        .bar-track {
-            height: 3px;
-            background: rgba(169, 183, 198, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: var(--accent);
-            transform-origin: left;
-            transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        /* Research note */
-        .research-note {
-            margin-top: auto;
-            padding: 18px 20px;
-            border-left: 3px solid var(--accent-mid);
-            background: rgba(74, 158, 255, 0.04);
-            flex-shrink: 0;
-        }
-
-        .research-note p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: var(--bone-faint);
-            font-style: italic;
-        }
-
-        .research-note b {
-            color: var(--bone-dim);
-            font-style: normal;
-        }
-
-        /* ═══════════════════════ FOOTER ══════════════════════════ */
-        .footer {
-            grid-column: 1 / -1;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
+            font-family: 'Inter', sans-serif;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 2.5px;
             text-transform: uppercase;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-lab:hover { color: var(--bone); border-color: var(--accent); }
+        .btn-lab.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+        .btn-lab.alert { border-color: var(--alert); color: var(--alert); }
+        .btn-lab.alert:hover { background: var(--alert); color: var(--bone); }
+
+        .btn-access {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 16px 40px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+        }
+
+        .btn-access:hover { background: var(--accent); color: var(--bg); box-shadow: 0 0 25px rgba(74, 158, 255, 0.4); }
+
+        /* --- Right Sidebar Readout --- */
+        .readout-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 30px;
+            margin-bottom: 35px;
+        }
+
+        .readout-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--bone);
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .readout-body {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--bone-dim);
+            font-weight: 300;
+            min-height: 180px;
+        }
+
+        .readout-body.typing::after {
+            content: "█";
+            color: var(--accent);
+            animation: blink 0.8s infinite;
+            margin-left: 6px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- Metrics --- */
+        .metric-item { margin-bottom: 25px; }
+        .metric-head { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 10px; color: var(--bone-faint); text-transform: uppercase; letter-spacing: 2px; }
+        .metric-head span:last-child { color: var(--accent); font-weight: 800; }
+        .bar-track { height: 3px; background: rgba(255,255,255,0.05); overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--accent); transition: width 1.8s cubic-bezier(0.22, 1, 0.36, 1); }
+
+        /* --- Footer --- */
+        .footer {
+            grid-column: 1 / -1;
+            border-top: 1px solid var(--border);
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
             color: var(--bone-faint);
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
-        .footer span { color: var(--accent); font-weight: 800; }
+        .footer b { color: var(--accent); font-weight: 800; }
 
-        /* ═══════════════════════ UTILITY ══════════════════════════ */
         .hidden { display: none !important; }
-        .vis-hidden { visibility: hidden; }
-
-        /* Subtle grain overlay */
-        .shell::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-            opacity: 0.035;
-            pointer-events: none;
-            z-index: 999;
-        }
     </style>
 </head>
 <body>
 
 <div class="shell">
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║           HEADER             ║ -->
-    <!-- ╚══════════════════════════════╝ -->
+    <!-- HEADER -->
     <header class="hdr">
         <div class="hdr-left">
-            <span class="klass">Classified — Level IV Clearance Required</span>
-            <h1>Research Dossier: Exalted-Medusa Strain</h1>
+            <span class="klass">Level V — Restricted Biologis Authorization</span>
+            <h1>Project Medusa: Exalted-Strain Dossier</h1>
         </div>
         <div class="hdr-right">
-            <div>Medusa Prime Xenobiology Institute</div>
-            <div class="stamp">Dossier Ref: XBI-7741-EMS&nbsp;&nbsp;|&nbsp;&nbsp;Revision 6.0</div>
-            <div>Subject Status: <span>Stable — Contained</span></div>
+            <div>MEDUSA PRIME XENOBIOLOGY INSTITUTE</div>
+            <div class="stamp">REF: EMS-ZERO-ABS&nbsp;&nbsp;|&nbsp;&nbsp;REV 8.0 — CRYOGENIC PROTOCOL</div>
         </div>
     </header>
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║            TAB BAR           ║ -->
-    <!-- ╚══════════════════════════════╝ -->
+    <!-- NAVIGATION -->
     <nav class="tab-bar">
-        <button class="tab active" id="tab-specimen" onclick="switchTab('specimen')">Specimen Analysis</button>
-        <button class="tab" id="tab-env" onclick="switchTab('env')">Environmental Analysis: Medusa Prime</button>
+        <button class="tab active" id="tab-bioscan" onclick="switchTab('bioscan')">Biotype Scan</button>
+        <button class="tab" id="tab-env" onclick="switchTab('env')">Environmental Survey</button>
     </nav>
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║         LEFT SIDEBAR         ║ -->
-    <!-- ╚══════════════════════════════╝ -->
-
-    <!-- SPECIMEN DOSSIER -->
-    <aside class="sidebar-left" id="sidebar-specimen">
-
+    <!-- LEFT SIDEBAR (BIOSCAN) -->
+    <aside class="sidebar-left" id="sidebar-bioscan">
         <div class="dossier-block">
-            <span class="block-num">System 01 — Neural Architecture</span>
-            <div class="block-title">Neural Rhizome</div>
+            <span class="block-num">System Adaptation 01</span>
+            <div class="block-title">Autarkic Boiler</div>
             <p class="block-body">
-                Decentralized neural mesh embedded throughout the musculoskeletal matrix. Provides operational continuity even after massive structural compromise.
+                Environment-independent metabolism. Generates constant internal heat through high-frequency kinetic friction and exothermic catalysis to counter external zero-thermal conditions.
             </p>
-            <span class="block-tag">Latency: < 0.4ms</span>
         </div>
-
         <div class="dossier-block">
-            <span class="block-num">System 02 — Haematological Circuit</span>
-            <div class="block-title">Lagnan & Cobalt-Blood</div>
+            <span class="block-num">Survival Metric 02</span>
+            <div class="block-title">Energy Harvesting</div>
             <p class="block-body">
-                Cobalt-hemocyanin haemolymph that transports thermal energy. The Lagnan organ filters volcanic particulate and neutralizes toxic sulfur dioxide.
+                Specimen utilizes the Obsidian Integument as a Faraday Cage, capturing ambient electrical discharges from lightning storms to jump-start core metabolic processes.
             </p>
-            <span class="block-tag">Temp: ~390°C (Peak)</span>
         </div>
-
         <div class="dossier-block">
-            <span class="block-num">System 03 — Structural Matrix</span>
-            <div class="block-title">Lithic Honeycomb Skeleton</div>
+            <span class="block-num">Structural Matrix 03</span>
+            <div class="block-title">Lithic Honeycomb</div>
             <p class="block-body">
-                Biomineralised silicate-obsidian composite skeleton. Closed-cell honeycomb lattice maximizes resistance to 1.25G gravity while enabling rapid heat dissipation.
+                Biomineralized skeleton reinforced with meteoric iron and nickel. Specifically engineered to withstand 1.25 G surface gravity and MACH-speed diamond ventiscas.
             </p>
-            <span class="block-tag">Strength: ~15 GPa</span>
         </div>
-
     </aside>
 
-    <!-- ENVIRONMENT SIDEBAR (hidden initially) -->
+    <!-- LEFT SIDEBAR (ENVIRONMENT) -->
     <aside class="sidebar-left hidden" id="sidebar-env">
-        <div class="env-stats">
-
-            <div class="env-stat-item">
-                <div class="env-stat-label">Surface Gravity</div>
-                <div class="env-stat-value">1.25<small style="font-size:1.5rem;color:var(--bone-dim)"> G</small></div>
-                <div class="env-stat-desc">Extreme gravitational pull. Requires the Lithic Honeycomb skeleton for structural stability.</div>
-            </div>
-
-            <div class="env-stat-item">
-                <div class="env-stat-label">Mean Surface Temperature</div>
-                <div class="env-stat-value">450<small style="font-size:1.5rem;color:var(--bone-dim)"> °C</small></div>
-                <div class="env-stat-desc">Lethal volcanic heat. Utilized by the specimen for primary thermosynthetic metabolism.</div>
-            </div>
-
-            <div class="env-stat-item">
-                <div class="env-stat-label">Atmospheric Composition</div>
-                <div class="env-stat-value" style="font-size:1.8rem;">Anoxic<br><small style="font-size:1.2rem;">Sulfuric</small></div>
-                <div class="env-stat-desc">62% SO₂. Inhospitable for aerobic life. Neutralized by the Lagnan Filtration Chamber.</div>
-            </div>
-
-            <div class="env-stat-item">
-                <div class="env-stat-label">The Glass Wind</div>
-                <div class="env-stat-value" style="font-size:1.8rem;">Mach 2.4</div>
-                <div class="env-stat-desc">Supersonic silicate storms. Capable of total organic ablation; resisted by the Obsidian Integument.</div>
-            </div>
-
+        <div class="env-stat-item">
+            <div class="env-stat-label">Surface Pressure</div>
+            <div class="env-stat-value">1.2 <small style="font-size:1.2rem;color:var(--bone-dim)">ATM</small></div>
+            <div class="env-stat-desc">Violent local fluctuations between 1.0 and 1.2 ATM due to cryogenic atmospheric transition.</div>
         </div>
-
-        <div class="env-hazard-note">
-            <p><b>Field Assessment:</b> Medusa Prime is a Class-V furnace world. The Exalted Strain is the only organism engineered for indefinite surface habitation.</p>
+        <div class="env-stat-item">
+            <div class="env-stat-label">Atmospheric Composition</div>
+            <div class="env-stat-value" style="font-size: 1.8rem;">70% N<sub>2</sub> | 20% O<sub>2</sub><br><small style="font-size:1.1rem; color:var(--alert)">SO<sub>2</sub> / H<sub>2</sub>S TOXIC LOAD</small></div>
+            <div class="env-stat-desc">High levels of Sulfur Dioxide and Hydrogen Sulfide from volcanic vents. Oxygen exists in both gas and solid (ice) states.</div>
+        </div>
+        <div class="env-stat-item">
+            <div class="env-stat-label">Electrical State</div>
+            <div class="env-stat-value" style="font-size: 1.8rem;">Extreme Discharge</div>
+            <div class="env-stat-desc">Constant lightning storms generating high Ozone (O<sub>3</sub>) concentrations. Environment serves as a primary power source for the Exalted Strain.</div>
+        </div>
+        <div class="env-stat-item">
+            <div class="env-stat-label">Soil & Mineralogy</div>
+            <div class="env-stat-value" style="font-size: 1.6rem;">Meteoric Iron<br>Obsidian Glass</div>
+            <div class="env-stat-desc">Surface composed of dark silicates, volcanic glass, and iron-nickel deposits from frequent meteor strikes. pH levels: 6.2 – 8.0.</div>
         </div>
     </aside>
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║        CENTER VIEWPORT       ║ -->
-    <!-- ╚══════════════════════════════╝ -->
+    <!-- CENTER VIEWPORT -->
     <section class="viewport-col">
-
         <div class="display-frame">
-            <!-- Corner ticks -->
-            <div class="tick tick-tl"></div>
-            <div class="tick tick-tr"></div>
-            <div class="tick tick-bl"></div>
-            <div class="tick tick-br"></div>
-
-            <!-- Anatomy view -->
             <div class="view-layer" id="view-anatomy">
-                <img id="img-anatomy" src="medusa-anatomy.png" alt="Anatomical Cross-Section — Exalted-Medusa">
-                <div class="hotspots-root" id="hotspots-container"></div>
+                <img src="medusa-anatomy.png" alt="Medusa Anatomy Scan">
+                <div id="hotspots-container" style="position: absolute; inset: 0;"></div>
             </div>
-
-            <!-- Planet view -->
             <div class="view-layer hidden" id="view-planet">
-                <img id="img-planet" src="medusa.png" alt="Medusa Prime — Surface Scan">
-                <div class="planet-caption">
-                    <h3>Volcanic Basin Survey</h3>
-                    <p>Obsidian plains and active magma vents. Zero organic matter detected outside the Exalted Strain.</p>
+                <img src="medusa.png" alt="Medusa Prime Surface" style="object-fit: cover; filter: brightness(0.6) saturate(0.6);">
+                <div style="position: absolute; bottom: 45px; left: 45px; max-width: 500px;">
+                    <h3 style="font-family: 'Playfair Display'; font-size: 2rem; margin-bottom: 12px; color: var(--accent);">Field Station Zero: Surface Scan</h3>
+                    <p style="font-size: 1rem; color: var(--bone-dim); line-height: 1.8;">Monitoring the Exalted Strain in its natural cryogenic habitat. Dark silicate plains and meteorite impact craters dominate the landscape.</p>
                 </div>
             </div>
-
-            <!-- Video view -->
             <div class="view-layer hidden" id="view-video">
-                <video id="research-video" muted loop playsinline>
-                    <source src="" type="video/mp4">
-                </video>
+                <video id="lab-video" muted loop playsinline><source src="" type="video/mp4"></video>
             </div>
         </div>
 
-        <!-- Bottom controls row -->
-        <div class="controls-row" id="ctrl-anatomy">
-            <button class="access-feed-btn" onclick="enterVideoFeed()">▶ Access Research Feed</button>
+        <div class="controls-row" id="ctrl-main">
+            <button class="btn-lab btn-access" onclick="enterVideoFeed()">▶ ACCESS RESEARCH FEED</button>
         </div>
-
         <div class="controls-row hidden" id="ctrl-video">
-            <button class="feed-btn active" id="btn-anatomy-feed" onclick="playFeed('video anatomia.mp4', this)">Internal View</button>
-            <button class="feed-btn" id="btn-modelo" onclick="playFeed('modelo con base.mp4', this)">Static Pose</button>
-            <button class="feed-btn" id="btn-caminando" onclick="playFeed('caminando.mp4', this)">Locomotion</button>
-            <button class="feed-btn" id="btn-gritando" onclick="playFeed('gritanto.mp4', this)">Stress Test</button>
-            <button class="feed-btn exit" onclick="exitVideoFeed()">✕ Close Feed</button>
+            <button class="btn-lab active" onclick="playFeed('video anatomia.mp4', this)">Internal View</button>
+            <button class="btn-lab" onclick="playFeed('modelo con base.mp4', this)">Static Structure</button>
+            <button class="btn-lab" onclick="playFeed('caminando.mp4', this)">Locomotion</button>
+            <button class="btn-lab" onclick="playFeed('gritanto.mp4', this)">Stress Test</button>
+            <button class="btn-lab alert" onclick="exitVideoFeed()">✕ CLOSE FEED</button>
         </div>
-
     </section>
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║        RIGHT SIDEBAR         ║ -->
-    <!-- ╚══════════════════════════════╝ -->
-    <aside class="sidebar-right" id="sidebar-right">
-
-        <!-- Readout panel -->
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-right">
         <div class="readout-panel">
-            <div class="readout-title-row">
-                <div>
-                    <span class="readout-sub" id="readout-sub">Bioscan Ready</span>
-                    <div class="readout-title" id="readout-title">Select a focal point</div>
-                </div>
+            <div class="readout-title" id="r-title">Status: Awaiting Input</div>
+            <div class="readout-body" id="r-body">Select an anatomical marker to initiate high-resolution biological data retrieval and diagnostic analysis.</div>
+        </div>
+
+        <div style="padding: 0 10px;">
+            <div class="metric-item">
+                <div class="metric-head"><span>Thermal Retention</span><span>99.4%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 99.4%;"></div></div>
             </div>
-            <div class="readout-body" id="readout-body">
-                Activate an anatomical marker to retrieve biological datasets.
+            <div class="metric-item">
+                <div class="metric-head"><span>Metabolic Water Synthesis</span><span>1.6 L/D</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 88%;"></div></div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-head"><span>Electrical Absorption</span><span>4.2 GW</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 75%;"></div></div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-head"><span>Skeletal Density</span><span>18.5 GPa</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 96%;"></div></div>
             </div>
         </div>
 
-        <!-- Metrics -->
-        <div class="metrics-section">
-            <div class="metrics-label">Performance Index</div>
-
-            <div class="metric-row">
-                <div class="metric-head"><span>Neutralization</span><span>98.4%</span></div>
-                <div class="bar-track"><div class="bar-fill" style="width: 98.4%;"></div></div>
-            </div>
-            <div class="metric-row">
-                <div class="metric-head"><span>Heat Resistance</span><span>450°C</span></div>
-                <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
-            </div>
-            <div class="metric-row">
-                <div class="metric-head"><span>Thermosynthesis</span><span>1.2 GW/h</span></div>
-                <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
-            </div>
-            <div class="metric-row">
-                <div class="metric-head"><span>Skeletal Strength</span><span>15.0 GPa</span></div>
-                <div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div>
-            </div>
+        <div style="margin-top: auto; padding: 25px; background: rgba(74, 158, 255, 0.03); border-left: 3px solid var(--accent-mid);">
+            <p style="font-size: 0.85rem; font-style: italic; color: var(--bone-faint);"><b>Magos Biologis Memo:</b> Forced evolutionary shifts have reached full autarky. The specimen is no longer a victim of the environment, but its ultimate master.</p>
         </div>
-
-        <!-- Research note -->
-        <div class="research-note">
-            <p>
-                <b>Note:</b> Irreversible biological shifts represent the complete rejection of organic fragility. The specimen cannot revert.
-            </p>
-        </div>
-
     </aside>
 
-    <!-- ╔══════════════════════════════╗ -->
-    <!-- ║            FOOTER            ║ -->
-    <!-- ╚══════════════════════════════╝ -->
+    <!-- FOOTER -->
     <footer class="footer">
-        <div>Genotype: <span>Exalted-Medusa</span></div>
-        <div>Haemolymph: <span>Cobalt-Hemocyanin</span></div>
-        <div>Nociception: <span>Null</span></div>
+        <div>GENOTYPE: <b>EXALTED-STRAIN-00</b></div>
+        <div>STATE: <b>ACTIVE THERMAL CORE</b></div>
+        <div>PROTOCOL: <b>ZERO-ABSOLUTE</b></div>
     </footer>
 
-</div><!-- .shell -->
+</div>
 
 <script>
-    // ════════════════════════════════════════
-    // HOTSPOT DATA
-    // ════════════════════════════════════════
-    const hotspotData = [
-        {
-            id: 'ocular',
-            title: 'Ocular Rhizome',
-            sub: 'Sensory — 01',
-            text: 'Neural expansion of the visual cortex. Uses bioluminescent pulses to map surroundings in zero-light, high-ash environments.',
-            top: '8%', left: '52.5%'
+    const bioData = {
+        nucleus: {
+            title: "Kineto-Synthetic Core",
+            text: "The primary thermal engine. Generates heat via exothermic catalysis and high-frequency kinetic friction. Synthesizes metabolic water ($H_2O$) by combining atmospheric oxygen with hydrogen molecularly extracted from mineral basalt deposits."
         },
-        {
-            id: 'lagnan',
-            title: 'Lagnan Filtration',
-            sub: 'Respiratory — 02',
-            text: 'Triple-stage mucosal organ. Traps silicate micro-shards and processes toxic sulfur dioxide into metabolic energy.',
-            top: '20%', left: '52.5%'
+        lagnan: {
+            title: "Lagnan Filtration System",
+            text: "Multi-stage respiratory complex. Neutralizes toxic H2S and SO2 gases, converting them into sulfur-based metabolic energy. Pre-heats the intake air from -180°C to 0°C to prevent instant crystallization of internal lung tissues."
         },
-        {
-            id: 'heart',
-            title: 'Thermovoric Ventricle',
-            sub: 'Metabolic — 03',
-            text: 'Primary engine for thermosynthesis. Directly converts ambient volcanic heat (450°C+) into biological energy.',
-            top: '28%', left: '51.5%'
+        skin: {
+            title: "Obsidian Integument",
+            text: "Multi-layered silicate epithelium that functions as a biological Faraday Cage. It absorbs ambient electrical discharges from Medusa Prime's storms to fuel the core. Self-repairs by integrating micro-particulates of volcanic glass dust."
         },
-        {
-            id: 'stomach',
-            title: 'Lithophagous Grinder',
-            sub: 'Digestive — 04',
-            text: 'Hyper-muscular mill. Dissolves basaltic regolith via bio-acids to biomineralize the silicate-obsidian skeleton.',
-            top: '38%', left: '52.5%'
+        stomach: {
+            title: "Lithophagous Grinder",
+            text: "Industrial-grade mineral processor. Breaks down basalt and meteoric iron to extract reactive isotopes and nickel. These elements are utilized to biomineralize the 'Lithic Honeycomb' skeleton, ensuring structural integrity under high pressure."
         },
-        {
-            id: 'skin',
-            title: 'Obsidian Integument',
-            sub: 'Dermal — 05',
-            text: 'Self-repairing silicate epithelium. Harder than quartz; provides total thermal insulation and immunity to atmospheric abrasion.',
-            top: '45%', left: '40%'
+        eye: {
+            title: "Ocular Rhizome",
+            text: "Advanced multi-spectrum neural array. Capable of penetrating sulfur-thick fog and detecting weak infrared heat signatures in total darkness. Ignores visual noise from atmospheric diamond ventiscas."
         }
+    };
+
+    const envData = {
+        pressure: { title: "Atmospheric Pressure", text: "1.0 – 1.2 ATM. Violent local fluctuations occur due to cryogenic atmospheric phase transitions." },
+        composition: { title: "Atmospheric Composition", text: "70% N2, 20% O2, with critical toxic loads of SO2 and H2S from volcanic vents. Oxygen exists in both gas and solid states." },
+        electrical: { title: "Electrical State", text: "Constant extreme lightning storms generating high Ozone (O3) levels. Environment serves as the primary metabolic power source." },
+        soil: { title: "Soil & Mineralogy", text: "Dark silicates, volcanic glass (obsidian), and iron-nickel meteoric deposits. Soil pH varies from 6.2 to 8.0." }
+    };
+
+    const bioHotspots = [
+        { id: 'eye', top: '8%', left: '52.5%' },
+        { id: 'lagnan', top: '20%', left: '52.5%' },
+        { id: 'nucleus', top: '28%', left: '51.5%' },
+        { id: 'stomach', top: '38%', left: '52.5%' },
+        { id: 'skin', top: '45%', left: '40%' }
     ];
 
-    // ════════════════════════════════════════
-    // HOTSPOT INIT
-    // ════════════════════════════════════════
-    const container   = document.getElementById('hotspots-container');
-    const readoutSub  = document.getElementById('readout-sub');
-    const readoutTitle= document.getElementById('readout-title');
-    const readoutBody = document.getElementById('readout-body');
-    let   isTyping    = false;
-    let   typeTimer   = null;
+    const envHotspots = [
+        { id: 'pressure', top: '15%', left: '20%' },
+        { id: 'composition', top: '15%', left: '80%' },
+        { id: 'electrical', top: '50%', left: '50%' },
+        { id: 'soil', top: '85%', left: '50%' }
+    ];
 
-    function buildHotspots() {
-        hotspotData.forEach(d => {
+    const hContainer = document.getElementById('hotspots-container');
+    const rTitle = document.getElementById('r-title');
+    const rBody = document.getElementById('r-body');
+    let typeTimer = null;
+
+    function initHotspots(type = 'bio') {
+        hContainer.innerHTML = '';
+        const dataSet = type === 'bio' ? bioHotspots : envHotspots;
+        const sourceData = type === 'bio' ? bioData : envData;
+
+        dataSet.forEach(h => {
             const el = document.createElement('div');
             el.className = 'hotspot';
-            el.style.top  = d.top;
-            el.style.left = d.left;
-            el.setAttribute('data-id', d.id);
+            if (type === 'env') el.classList.add('no-dot');
+            el.style.top = h.top;
+            el.style.left = h.left;
+            
+            const label = document.createElement('span');
+            label.className = 'hotspot-label';
+            label.textContent = sourceData[h.id].title;
+            el.appendChild(label);
 
-            const lbl = document.createElement('span');
-            lbl.className = 'hotspot-label';
-            lbl.textContent = d.title;
-            el.appendChild(lbl);
-
-            el.addEventListener('click', () => {
-                document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+            el.onclick = () => {
+                document.querySelectorAll('.hotspot').forEach(hs => hs.classList.remove('active'));
                 el.classList.add('active');
-                showReadout(d);
-            });
-
-            container.appendChild(el);
+                updateReadout(h.id, type);
+            };
+            hContainer.appendChild(el);
         });
     }
 
-    function showReadout(d) {
-        readoutSub.textContent  = d.sub;
-        readoutTitle.textContent = d.title;
-        typeText(d.text);
+    function updateReadout(id, type = 'bio') {
+        const sourceData = type === 'bio' ? bioData : envData;
+        const data = sourceData[id];
+        rTitle.textContent = data.title;
+        typeText(data.text);
     }
 
     function typeText(text) {
         if (typeTimer) clearTimeout(typeTimer);
-        isTyping = true;
-        readoutBody.innerHTML = '';
-        readoutBody.classList.add('typing');
+        rBody.innerHTML = '';
+        rBody.classList.add('typing');
         let i = 0;
-
         function tick() {
             if (i < text.length) {
-                readoutBody.innerHTML += text.charAt(i++);
+                rBody.innerHTML += text.charAt(i++);
                 typeTimer = setTimeout(tick, 5);
             } else {
-                readoutBody.classList.remove('typing');
-                isTyping = false;
+                rBody.classList.remove('typing');
             }
         }
         tick();
     }
 
-    // ════════════════════════════════════════
-    // TAB SWITCHING
-    // ════════════════════════════════════════
     function switchTab(tab) {
-        const sSpec = document.getElementById('sidebar-specimen');
-        const sEnv  = document.getElementById('sidebar-env');
-        const vAnat = document.getElementById('view-anatomy');
-        const vPlan = document.getElementById('view-planet');
-        const ctrlA = document.getElementById('ctrl-anatomy');
-        const ctrlV = document.getElementById('ctrl-video');
-        const tSpec = document.getElementById('tab-specimen');
-        const tEnv  = document.getElementById('tab-env');
-
-        exitVideoFeed(true); // silent exit
-
-        if (tab === 'specimen') {
-            sSpec.classList.remove('hidden');
-            sEnv.classList.add('hidden');
-            vAnat.classList.remove('hidden');
-            vPlan.classList.add('hidden');
-            ctrlA.classList.remove('hidden');
-            tSpec.classList.add('active');
-            tEnv.classList.remove('active');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        
+        const isEnv = (tab === 'env');
+        document.getElementById('sidebar-bioscan').classList.toggle('hidden', isEnv);
+        document.getElementById('sidebar-env').classList.toggle('hidden', !isEnv);
+        document.getElementById('view-anatomy').classList.toggle('hidden', isEnv);
+        document.getElementById('view-planet').classList.toggle('hidden', !isEnv);
+        document.getElementById('ctrl-main').classList.toggle('hidden', isEnv);
+        
+        if (isEnv) {
+            initHotspots('env');
+            document.getElementById('view-planet').appendChild(hContainer);
+            exitVideoFeed();
         } else {
-            sSpec.classList.add('hidden');
-            sEnv.classList.remove('hidden');
-            vAnat.classList.add('hidden');
-            vPlan.classList.remove('hidden');
-            ctrlA.classList.add('hidden');
-            ctrlV.classList.add('hidden');
-            tEnv.classList.add('active');
-            tSpec.classList.remove('active');
+            initHotspots('bio');
+            document.getElementById('view-anatomy').appendChild(hContainer);
         }
     }
 
-    // ════════════════════════════════════════
-    // VIDEO FEED
-    // ════════════════════════════════════════
     function enterVideoFeed() {
         document.getElementById('view-anatomy').classList.add('hidden');
         document.getElementById('view-video').classList.remove('hidden');
-        document.getElementById('ctrl-anatomy').classList.add('hidden');
+        document.getElementById('ctrl-main').classList.add('hidden');
         document.getElementById('ctrl-video').classList.remove('hidden');
-        // Auto-play internal view
-        playFeed('video_anatomia.mp4', document.getElementById('btn-anatomy-feed'));
+        playFeed('video anatomia.mp4', document.querySelector('#ctrl-video button'));
     }
 
-    function exitVideoFeed(silent) {
-        const vV = document.getElementById('view-video');
-        const vA = document.getElementById('view-anatomy');
-        const cV = document.getElementById('ctrl-video');
-        const cA = document.getElementById('ctrl-anatomy');
-
-        if (!vV.classList.contains('hidden')) {
-            vV.classList.add('hidden');
-            vA.classList.remove('hidden');
-            cV.classList.add('hidden');
-            if (!silent) cA.classList.remove('hidden');
-        }
-
-        const vid = document.getElementById('research-video');
-        vid.pause();
-        vid.src = '';
-
-        document.querySelectorAll('.feed-btn[id^="btn-"]').forEach(b => b.classList.remove('active'));
+    function exitVideoFeed() {
+        const video = document.getElementById('lab-video');
+        video.pause(); video.src = '';
+        document.getElementById('view-video').classList.add('hidden');
+        document.getElementById('view-anatomy').classList.remove('hidden');
+        document.getElementById('ctrl-video').classList.add('hidden');
+        document.getElementById('ctrl-main').classList.remove('hidden');
     }
 
     function playFeed(src, btn) {
-        const vid = document.getElementById('research-video');
-        vid.src = src;
-        vid.load();
-        vid.play().catch(() => {});
-        document.querySelectorAll('.feed-btn[id^="btn-"]').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
+        const video = document.getElementById('lab-video');
+        video.src = src;
+        video.load(); video.play();
+        document.querySelectorAll('#ctrl-video .btn-lab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
     }
 
-    // ════════════════════════════════════════
-    // INIT
-    // ════════════════════════════════════════
-    buildHotspots();
+    window.onload = initHotspots;
 </script>
 
 </body>
